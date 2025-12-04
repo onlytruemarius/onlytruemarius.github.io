@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hey! I'm Marius</title>
+    <meta name="description" content="This is my online profile. The page was last updated on 2nd February 2025.">
+    <link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/waving-hand_1f44b.png">
+    <style>
+      body {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #ffffff;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* Adjusted for responsive height */
+        margin: 0;
+        margin-top: 40vh;
+        margin-bottom: 10vh;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        max-width: 100%;
+        /* Responsive max width */
+        text-align: center;
+        margin-bottom: 60px;
+        /* Space for footer */
+      }
+
+      .typing-text {
+        font-size: 1.5em;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: .15em solid #333;
+        display: inline;
+        animation: typing 4s steps(40, end), dynamic-caret 0.75s step-end infinite;
+      }
+
+      .highlight {
+        background-color: black;
+        color: white;
+        padding: 0 5px;
+        border-right: none;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+
+        to {
+          width: 100%;
+        }
+      }
+
+      @keyframes dynamic-caret {
+
+        0%,
+        100% {
+          border-color: transparent;
+        }
+
+        50% {
+          border-color: #333;
+        }
+      }
+
+      @keyframes white-caret {
+
+        from,
+        to {
+          border-color: transparent;
+        }
+
+        50% {
+          border-color: white;
+        }
+      }
+
+      a {
+        color: #000000;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: none;
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 0 5px;
+        border-right: none;
+      }
+
+      footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
+        text-align: left;
+        padding: 10px;
+        font-size: 1em;
+        color: #666;
+        border-top: 0px solid #ddd;
+      }
+
+      .resume {
+        text-align: left;
+        max-width: 90%;
+        /* Responsive max width */
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 10px;
+        /* Add padding for smaller screens */
+      }
+
+      .resume h1 {
+        font-size: 1.5em;
+        margin-top: 0;
+      }
+
+      .resume h2 {
+        font-size: 1.2em;
+        border-bottom: 1px solid #333;
+        padding-bottom: 5px;
+        margin-bottom: 10px;
+      }
+
+      .resume .section {
+        margin-bottom: 30px;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        gap: 10px;
+      }
+
+      .timeline div {
+        padding: 10px;
+      }
+
+      .timeline div.period {
+        text-align: right;
+        font-weight: normal;
+        border-right: 1px solid #ccc;
+      }
+
+      .timeline div.content {
+        text-align: left;
+      }
+
+      .page-up-btn,
+      .copy-code-btn {
+        font-family: 'Courier New', Courier, monospace;
+        position: fixed; /* Fixed position */
+        color: #666;
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: color 0.3s;
+        z-index: 1000; /* Sicherstellen, dass der Button oben bleibt */
+        transform: translateZ(0); /* Workaround für Safari-Rendering-Fehler */
+      }
+
+      .page-up-btn {
+        right: 1.2rem;
+        font-size: 3em;
+        bottom: 7px;
+        /* Adjusted for smaller screens */
+      }
+
+      .copy-code-btn {
+        right: 3.5rem;
+        /* Adjust as needed to place it next to the Scroll Up button */
+        font-size: 1em;
+        /* Adjusted for smaller screens */
+        bottom: 10px;
+      }
+
+      .page-up-btn:hover,
+      .copy-code-btn:hover {
+        text-decoration: none;
+        background-color: black;
+        color: white;
+        font-weight: bold;
+        padding: 0.1rem 0.1rem;
+        /* Adjust padding for touch targets */
+        border-right: none;
+      }
+
+      /* Media Queries for mobile responsiveness */
+      @media only screen and (max-width: 392px) {
+        .typing-text {}
+
+        .resume h1 {}
+
+        .resume h2 {}
+
+        .page-up-btn {
+          font-size: 3em;
+        }
+
+        .copy-code-btn {
+          font-size: 1em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="text" class="typing-text"></div>
+      <p>studying political science @ Leuphana University Lüneburg</p>
+      <p>
+        <a href="mailto:kontakt@marius-michel.de">kontakt@marius-michel.de</a>
+      </p>
+    </div>
+    <div class="resume">
+      <h1>Curriculum Vitae (CV)</h1>
+      <div class="section">
+        <h2>Experience</h2>
+        <div class="timeline">
+          <div class="period">07/2023 – 08/2024</div>
+          <div class="content"> Spokes person of the General Students Committee (AStA) at Leuphana University, Lüneburg </div>
+          <div class="period">02/2021 – 07/2021</div>
+          <div class="content"> Voluntary Social Year (FSJ) at a Youth Work Center, Wetzlar </div>
+          <div class="period">08/2020 – 01/2021</div>
+          <div class="content"> Voluntary Social Year (FSJ) at Bahnhofsmission Frankfurt e.V., Frankfurt am Main </div>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Education</h2>
+        <div class="timeline">
+          <div class="period">10/2021 – 03/2026</div>
+          <div class="content"> Study of Political Science (Bachelor of Arts) at Leuphana University, Lüneburg </div>
+          <div class="period">07/2012 – 06/2020</div>
+          <div class="content"> Abitur at Stiftsschule St. Johann, Amöneburg </div>
+        </div>
+      </div>
+        <div class="section">
+        <h2>Social and political commitment</h2>
+        <div class="timeline">
+          <div class="period">03/2021 – 03/2026</div>
+          <div class="content"> City Councilor, Amöneburg </div>
+          <div class="period">10/2024 – 09/2025</div>
+          <div class="content"> Member of the Academic Senate of Leuphana Univeristy, Lüneburg </div>
+          <div class="period">10/2022 – 09/2025</div>
+          <div class="content"> Member of Committees and Examination Boards of the Academic Body at Leuphana University, Lüneburg </div>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Skills</h2>
+        <div class="timeline">
+          <div class="period">Language</div>
+          <div class="content"> German (C2), English (B2/C1), Latin (Latinum), Ancient Greek (Graecum) </div>
+          <div class="period">Hard Skills</div>
+          <div class="content"> CMS (Wordpress) <br> Light web development (HTML, PHP, CSS) <br> Basic programing (Python) <br> Basic server administration (Debian an other Linux distributions and applications) </div>
+          <div class="period">Soft Skills</div>
+          <div class="content"> Teamwork and -organization <br>Problem solving <br> Structured work flow</div>
+        </div>
+      </div>
+    </div>
+    <footer> &copy; 2025 Marius Michel //&shy; use my code -&gt;
+      <button class="copy-code-btn" onclick="copyCode()">copy code</button>
+    <button class="page-up-btn" onclick="scrollToTop()">&#8593;</button>
+      </footer>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const textElement = document.getElementById('text');
+        const initialText = 'Hi! I\'m ';
+        const finalText = 'Marius Michel';
+        const typingSpeed = 100; // in milliseconds
+        const eraseSpeed = 50; // in milliseconds
+        const pauseDuration = 1000; // pause duration before erasing
+        function typeWriter(text, i, callback) {
+          if (i < text.length) {
+            textElement.textContent += text.charAt(i);
+            setTimeout(() => typeWriter(text, i + 1, callback), typingSpeed);
+          } else if (typeof callback === 'function') {
+            setTimeout(callback, pauseDuration);
+          }
+        }
+
+        function eraseText(callback) {
+          const text = textElement.textContent;
+          textElement.classList.add('highlight');
+
+          function erase(i) {
+            if (i >= 0) {
+              textElement.textContent = text.substring(0, i);
+              setTimeout(() => erase(i - 1), eraseSpeed);
+            } else if (typeof callback === 'function') {
+              setTimeout(callback, pauseDuration);
+            }
+          }
+          erase(text.length - 1);
+        }
+
+        function startTypingAnimation() {
+          typeWriter(initialText, 0, () => {
+            eraseText(() => {
+              textElement.classList.remove('highlight');
+              textElement.style.animation = 'typing 4s steps(40, end), dynamic-caret 0.75s step-end infinite'; // Apply dynamic caret animation
+              typeWriter(finalText, 0);
+              setTimeout(() => {
+                textElement.style.animation = 'typing 1s steps(10, end), white-caret 0.75s step-end infinite'; // Apply white caret animation
+              }, 1000); // Adjust the timeout based on your typing speed
+            });
+          });
+        }
+        startTypingAnimation();
+      });
+
+      function scrollToTop() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+
+      function copyCode() {
+        const textToCopy = `
+																	<!DOCTYPE html>
+																	<html lang="en">
+																		<head>
+																			<meta charset="UTF-8">
+																				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+																					<title>Placeholder Page</title>
+																					<meta name="description" content="This is a placeholder profile page.">
+																						<link rel="icon" type="image/png" href="https://em-content.zobj.net/source/apple/391/waving-hand_1f44b.png">
+																							<style>
+                        body {
+                            font-family: 'Courier New', Courier, monospace;
+                            background-color: #ffffff;
+                            color: #333;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            height: 100vh; /* Adjusted for responsive height */
+                            margin: 0;
+                        }
+                        .container {
+                            background-color: #fff;
+                            padding: 20px;
+                            border-radius: 5px;
+                            max-width: 90%; /* Responsive max width */
+                            width: 100%;
+                            text-align: center;
+                            margin-bottom: 60px; /* Space for footer */
+                        }
+                        .typing-text {
+                            font-size: 1.5em;
+                            font-weight: bold;
+                            white-space: nowrap;
+                            overflow: hidden;
+                            border-right: .15em solid #333;
+                            display: inline;
+                            animation: typing 4s steps(40, end), dynamic-caret 0.75s step-end infinite;
+                        }
+                        .highlight {
+                            background-color: black;
+                            color: white;
+                            padding: 0 5px;
+                            border-right: none;
+                        }
+                        @keyframes typing {
+                            from { width: 0; }
+                            to { width: 100%; }
+                        }
+                        @keyframes dynamic-caret {
+                            0%, 100% { border-color: transparent; }
+                            50% { border-color: #333; }
+                        }
+                        @keyframes white-caret {
+                            from, to { border-color: transparent; }
+                            50% { border-color: white; }
+                        }
+                        a {
+                            color: #000000;
+                            text-decoration: none;
+                        }
+                        a:hover {
+                            color: #007BFF;
+                            text-decoration: none;
+                        }
+                        footer {
+                            position: fixed;
+                            bottom: 0;
+                            left: 0;
+                            right: 0;
+                            background-color: #fff;
+                            text-align: center;
+                            padding: 10px;
+                            font-size: 0.9em;
+                            color: #666;
+                            border-top: 0px solid #ddd;
+                        }
+                        .resume {
+                            text-align: left;
+                            max-width: 90%; /* Responsive max width */
+                            width: 100%;
+                            margin: 0 auto;
+                            padding: 0 10px; /* Add padding for smaller screens */
+                        }
+                        .resume h1 {
+                            font-size: 1.2em;
+                            margin-top: 0;
+                        }
+                        .resume h2 {
+                            font-size: 1.1em;
+                            border-bottom: 1px solid #333;
+                            padding-bottom: 5px;
+                            margin-bottom: 10px;
+                        }
+                        .resume .section {
+                            margin-bottom: 20px;
+                        }
+                        .timeline {
+                            display: grid;
+                            grid-template-columns: 1fr 3fr;
+                            gap: 10px;
+                        }
+                        .timeline div {
+                            padding: 10px;
+                        }
+                        .timeline div.period {
+                            text-align: right;
+                            font-weight: normal;
+                            border-right: 1px solid #ccc;
+                        }
+                        .timeline div.content {
+                            text-align: left;
+                        }
+                        .page-up-btn {
+                            position: fixed;
+                            bottom: 10px;
+                            right: 10px; /* Adjust for mobile */
+                            font-size: 1.2em; /* Adjusted for smaller screens */
+                            color: #000;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            z-index: 1000;
+                            transition: color 0.3s;
+                        }
+                        .page-up-btn:hover {
+                            color: #007BFF;
+                        }
+                    </style>
+																						</head>
+																						<body>
+																							<div class="container">
+																								<div id="text" class="typing-text"></div>
+																								<p>Placeholder text for a personal introduction or description.</p>
+																								<p>
+																									<a href="mailto:placeholder@example.com">placeholder@example.com</a>
+																								</p>
+																							</div>
+																							<div class="resume">
+																								<h1>Resume</h1>
+																								<div class="section">
+																									<h2>Experience</h2>
+																									<div class="timeline">
+																										<div class="period">MM/YYYY – Present</div>
+																										<div class="content">
+                                    Current Role Description
+                                </div>
+																										<div class="period">MM/YYYY – MM/YYYY</div>
+																										<div class="content">
+                                    Previous Role Description
+                                </div>
+																										<div class="period">MM/YYYY – MM/YYYY</div>
+																										<div class="content">
+                                    Another Role Description
+                                </div>
+																									</div>
+																								</div>
+																								<div class="section">
+																									<h2>Education</h2>
+																									<div class="timeline">
+																										<div class="period">MM/YYYY – MM/YYYY</div>
+																										<div class="content">
+                                    Degree Description at University
+                                </div>
+																										<div class="period">MM/YYYY – MM/YYYY</div>
+																										<div class="content">
+                                    Previous Education Description
+                                </div>
+																									</div>
+																								</div>
+																							</div>
+																							<footer>
+                        &copy; 2024 Placeholder Name
+                    </footer>
+																							<button class="page-up-btn" onclick="scrollToTop()">&#8593;</button>
+																						</body>
+																					</html>`;
+        const textarea = document.createElement('textarea');
+        textarea.value = textToCopy;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        const button = document.querySelector('.copy-code-btn');
+        button.textContent = 'successful';
+        setTimeout(() => {
+          button.textContent = 'copy code';
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
