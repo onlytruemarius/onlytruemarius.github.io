@@ -487,6 +487,359 @@ layout: null
         scroll-behavior: auto;
       }
     }
+
+/*
+|--------------------------------------------------------------------------
+| Sleek design + feste Kopf- und Fußzeile
+|--------------------------------------------------------------------------
+*/
+
+:root {
+  --white: #ffffff;
+  --black: #181818;
+  --orange: #e85d2a;
+  --grey: #858585;
+  --page-width: 1050px;
+  --header-height: 96px;
+  --footer-height: 64px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Platz für die fixierten Elemente
+|--------------------------------------------------------------------------
+*/
+
+body {
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
+}
+
+/*
+|--------------------------------------------------------------------------
+| Fixierte Kopfzeile
+|--------------------------------------------------------------------------
+*/
+
+.site-header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: var(--header-height);
+  padding: 1.5rem;
+
+  background: var(--white);
+  opacity: 1;
+}
+
+.site-name {
+  color: var(--black);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Kompakteres Layout
+|--------------------------------------------------------------------------
+*/
+
+.blog {
+  grid-template-columns:
+    64px
+    230px
+    minmax(0, 1fr);
+
+  gap: clamp(2rem, 4vw, 3.5rem);
+  width: min(calc(100% - 3rem), var(--page-width));
+  min-height: calc(
+    100vh - var(--header-height) - var(--footer-height) - 5rem
+  );
+
+  margin-top: clamp(2.5rem, 7vh, 5rem);
+  padding-bottom: 4rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Etappennavigation
+|--------------------------------------------------------------------------
+*/
+
+.stage {
+  top: calc(var(--header-height) + 2rem);
+  align-content: center;
+  gap: 1.25rem;
+  min-height: 430px;
+}
+
+.stage-title {
+  margin: 0;
+  color: var(--black);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+}
+
+.stage-period {
+  color: var(--grey);
+  font-weight: 400;
+}
+
+.stage-arrow {
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--grey);
+  font-size: 1.15rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Eintragsliste
+|--------------------------------------------------------------------------
+*/
+
+.entry-list {
+  gap: 0.8rem;
+}
+
+.entry-link {
+  margin-inline: -0.6rem;
+  padding: 0.55rem 0.6rem;
+}
+
+.entry-date {
+  margin-bottom: 0.2rem;
+  color: var(--grey);
+  font-size: 0.67rem;
+  letter-spacing: 0.07em;
+}
+
+.entry-title {
+  color: var(--black);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Aktiver Eintrag und Hover
+|--------------------------------------------------------------------------
+*/
+
+@media (hover: hover) {
+  .entry-link:hover,
+  .stage-arrow:hover {
+    background: var(--orange);
+    color: var(--black);
+  }
+
+  .entry-link:hover .entry-date,
+  .entry-link:hover .entry-title {
+    color: var(--black);
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Artikel
+|--------------------------------------------------------------------------
+*/
+
+.article {
+  max-width: 660px;
+}
+
+.article-date {
+  margin-bottom: 0.65rem;
+  color: var(--grey);
+  font-size: 0.7rem;
+  letter-spacing: 0.07em;
+}
+
+.article-title {
+  margin: 0 0 1.75rem;
+  color: var(--black);
+  font-size: clamp(1.5rem, 2.3vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.article-body {
+  max-width: 620px;
+  color: #242424;
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.article-body p {
+  margin: 0 0 1.25rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Fixierte Fußzeile
+|--------------------------------------------------------------------------
+*/
+
+.site-footer {
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: var(--footer-height);
+  margin: 0;
+
+  padding-top: 1rem;
+  padding-right: max(
+    1.5rem,
+    calc((100vw - var(--page-width)) / 2)
+  );
+  padding-bottom: 1rem;
+  padding-left: max(
+    1.5rem,
+    calc((100vw - var(--page-width)) / 2)
+  );
+
+  background: var(--white);
+  color: var(--grey);
+  opacity: 1;
+
+  font-size: 0.68rem;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Tastaturfokus
+|--------------------------------------------------------------------------
+*/
+
+.entry-link:focus-visible,
+.stage-arrow:focus-visible,
+.site-name:focus-visible,
+.site-footer a:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Tablet
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 850px) {
+  .blog {
+    grid-template-columns:
+      58px
+      200px
+      minmax(0, 1fr);
+
+    gap: 1.75rem;
+  }
+
+  .article-title {
+    font-size: 1.75rem;
+  }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Smartphone
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 650px) {
+  :root {
+    --header-height: 82px;
+    --footer-height: 82px;
+  }
+
+  body {
+    padding-top: var(--header-height);
+    padding-bottom: var(--footer-height);
+  }
+
+  .site-header {
+    min-height: var(--header-height);
+    padding: 1.25rem 1rem;
+  }
+
+  .site-name {
+    font-size: 0.8rem;
+  }
+
+  .blog {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+
+    width: min(
+      calc(100% - 2rem),
+      var(--page-width)
+    );
+
+    min-height: auto;
+    margin-top: 1.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .stage {
+    position: static;
+    top: auto;
+    gap: 0.75rem;
+    min-height: auto;
+  }
+
+  .stage-title {
+    font-size: 0.72rem;
+  }
+
+  .entry-list {
+    gap: 0.5rem;
+  }
+
+  .entry-link {
+    margin-inline: 0;
+  }
+
+  .article-title {
+    font-size: 1.6rem;
+  }
+
+  .site-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.2rem;
+
+    min-height: var(--footer-height);
+    padding: 0.8rem 1rem;
+  }
+}
   </style>
 </head>
 
