@@ -6,10 +6,11 @@ lang: de
 timezone: Europe/Berlin
 
 markdown: kramdown
+future: true
 
 collections:
   entries:
-    output: true
+    output: false
 
 exclude:
   - README.md
