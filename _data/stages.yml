@@ -1,6 +1,6 @@
-- id: 2026
-  title: 2026
-  period: Jan. 2026 - Dez. 2026
-  default_entry: 25082026
-  previous_entry: 25082026
-  next_entry: 25082026
+- id: emt2026
+  title: Ausbildung zum RetSan
+  period: Juni 2026 - Oktober 2026
+  default_entry: do25082026
+  previous_entry: do25082026
+  next_entry: do25082026
