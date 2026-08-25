@@ -1,14 +1,26 @@
+---
+layout: null
+---
+
+{% assign entries = site.entries | sort: "date" | reverse %}
+{% assign first_stage = site.data.stages | first %}
+{% assign default_entry = first_stage.default_entry %}
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ site.lang | default: 'de' }}">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Marius Michel</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>{{ site.title }}</title>
 
   <meta
     name="description"
-    content="Personal notes by Marius Michel."
+    content="{{ site.description }}"
   >
 
   <link
@@ -17,851 +29,33 @@
     href="https://em-content.zobj.net/source/apple/391/waving-hand_1f44b.png"
   >
 
-  <style>
-    :root {
-      --white: #ffffff;
-      --black: #171717;
-      --orange: #f05a28;
-      --grey: #777777;
-      --light-grey: #f3f3f3;
-      --page-width: 1200px;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-height: 100vh;
-      margin: 0;
-      background: var(--white);
-      color: var(--black);
-      font-family: "Courier New", Courier, monospace;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Unsichtbare Radio-Buttons
-    |--------------------------------------------------------------------------
-    |
-    | Jeder Radio-Button steht für einen ausgewählten Beitrag.
-    | Die dazugehörigen Labels funktionieren als Navigation.
-    |
-    */
-
-    .state {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Allgemeine Elemente
-    |--------------------------------------------------------------------------
-    */
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    label {
-      font: inherit;
-    }
-
-    label {
-      cursor: pointer;
-    }
-
-    a:focus-visible,
-    label:focus-visible {
-      outline: 2px solid var(--orange);
-      outline-offset: 4px;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Header
-    |--------------------------------------------------------------------------
-    */
-
-    .site-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 110px;
-      padding: 2rem 1.5rem;
-    }
-
-    .site-name {
-      color: var(--black);
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
-    .site-name::before {
-      display: inline-block;
-      width: 0.65rem;
-      height: 0.65rem;
-      margin-right: 0.75rem;
-      background: var(--orange);
-      border-radius: 50%;
-      content: "";
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Grundlayout
-    |--------------------------------------------------------------------------
-    */
-
-    .blog {
-      display: grid;
-      grid-template-columns:
-        90px
-        minmax(220px, 280px)
-        minmax(0, 1fr);
-      gap: clamp(2rem, 5vw, 5rem);
-      width: min(calc(100% - 3rem), var(--page-width));
-      min-height: 620px;
-      margin: clamp(2rem, 6vh, 5rem) auto 0;
-      padding-bottom: 5rem;
-    }
-
-    .stage-column,
-    .entries-column,
-    .article-column {
-      min-width: 0;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Erste Spalte: Etappen
-    |--------------------------------------------------------------------------
-    */
-
-    .stage {
-      display: none;
-      position: sticky;
-      top: 2rem;
-      align-items: center;
-      justify-items: center;
-      min-height: 420px;
-    }
-
-    .stage-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.75rem;
-      height: 2.75rem;
-      color: var(--grey);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.4rem;
-      line-height: 1;
-      user-select: none;
-    }
-
-    .stage-arrow:hover {
-      color: var(--orange);
-    }
-
-    .stage-title {
-      margin: 2rem 0;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-align: center;
-      text-transform: uppercase;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-    }
-
-    .stage-period {
-      color: var(--orange);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sichtbare Etappe
-    |--------------------------------------------------------------------------
-    */
-
-    #view-medicine:checked
-      ~ main .stage-medicine,
-
-    #view-emt-first:checked
-      ~ main .stage-emt,
-    #view-emt-why:checked
-      ~ main .stage-emt,
-    #view-emt-preparation:checked
-      ~ main .stage-emt,
-
-    #view-politics-thesis:checked
-      ~ main .stage-politics,
-    #view-politics-degree:checked
-      ~ main .stage-politics,
-
-    #view-university-senate:checked
-      ~ main .stage-university,
-    #view-university-parliament:checked
-      ~ main .stage-university,
-    #view-university-asta:checked
-      ~ main .stage-university,
-
-    #view-local-council:checked
-      ~ main .stage-local,
-
-    #view-social-youth:checked
-      ~ main .stage-social,
-    #view-social-frankfurt:checked
-      ~ main .stage-social {
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Zweite Spalte: Beitragsauswahl
-    |--------------------------------------------------------------------------
-    */
-
-    .entries {
-      display: none;
-    }
-
-    .entries-heading {
-      margin: 0 0 2.5rem;
-      color: var(--grey);
-      font-size: 0.7rem;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .entry-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .entry-link {
-      display: block;
-    }
-
-    .entry-date {
-      display: block;
-      margin-bottom: 0.25rem;
-      color: var(--grey);
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-    }
-
-    .entry-title {
-      display: block;
-      font-size: 0.95rem;
-      font-weight: 700;
-      line-height: 1.35;
-    }
-
-    .entry-link:hover .entry-title {
-      color: var(--orange);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sichtbare Beitragsliste
-    |--------------------------------------------------------------------------
-    */
-
-    #view-medicine:checked
-      ~ main .entries-medicine,
-
-    #view-emt-first:checked
-      ~ main .entries-emt,
-    #view-emt-why:checked
-      ~ main .entries-emt,
-    #view-emt-preparation:checked
-      ~ main .entries-emt,
-
-    #view-politics-thesis:checked
-      ~ main .entries-politics,
-    #view-politics-degree:checked
-      ~ main .entries-politics,
-
-    #view-university-senate:checked
-      ~ main .entries-university,
-    #view-university-parliament:checked
-      ~ main .entries-university,
-    #view-university-asta:checked
-      ~ main .entries-university,
-
-    #view-local-council:checked
-      ~ main .entries-local,
-
-    #view-social-youth:checked
-      ~ main .entries-social,
-    #view-social-frankfurt:checked
-      ~ main .entries-social {
-      display: block;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Aktiver Eintrag
-    |--------------------------------------------------------------------------
-    */
-
-    #view-medicine:checked
-      ~ main label[for="view-medicine"] .entry-title,
-
-    #view-emt-first:checked
-      ~ main label[for="view-emt-first"] .entry-title,
-    #view-emt-why:checked
-      ~ main label[for="view-emt-why"] .entry-title,
-    #view-emt-preparation:checked
-      ~ main label[for="view-emt-preparation"] .entry-title,
-
-    #view-politics-thesis:checked
-      ~ main label[for="view-politics-thesis"] .entry-title,
-    #view-politics-degree:checked
-      ~ main label[for="view-politics-degree"] .entry-title,
-
-    #view-university-senate:checked
-      ~ main label[for="view-university-senate"] .entry-title,
-    #view-university-parliament:checked
-      ~ main label[for="view-university-parliament"] .entry-title,
-    #view-university-asta:checked
-      ~ main label[for="view-university-asta"] .entry-title,
-
-    #view-local-council:checked
-      ~ main label[for="view-local-council"] .entry-title,
-
-    #view-social-youth:checked
-      ~ main label[for="view-social-youth"] .entry-title,
-    #view-social-frankfurt:checked
-      ~ main label[for="view-social-frankfurt"] .entry-title {
-      color: var(--orange);
-    }
-
-    #view-medicine:checked
-      ~ main label[for="view-medicine"] .entry-title::before,
-
-    #view-emt-first:checked
-      ~ main label[for="view-emt-first"] .entry-title::before,
-    #view-emt-why:checked
-      ~ main label[for="view-emt-why"] .entry-title::before,
-    #view-emt-preparation:checked
-      ~ main label[for="view-emt-preparation"] .entry-title::before,
-
-    #view-politics-thesis:checked
-      ~ main label[for="view-politics-thesis"] .entry-title::before,
-    #view-politics-degree:checked
-      ~ main label[for="view-politics-degree"] .entry-title::before,
-
-    #view-university-senate:checked
-      ~ main label[for="view-university-senate"] .entry-title::before,
-    #view-university-parliament:checked
-      ~ main label[for="view-university-parliament"] .entry-title::before,
-    #view-university-asta:checked
-      ~ main label[for="view-university-asta"] .entry-title::before,
-
-    #view-local-council:checked
-      ~ main label[for="view-local-council"] .entry-title::before,
-
-    #view-social-youth:checked
-      ~ main label[for="view-social-youth"] .entry-title::before,
-    #view-social-frankfurt:checked
-      ~ main label[for="view-social-frankfurt"] .entry-title::before {
-      content: "→ ";
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dritte Spalte: Artikel
-    |--------------------------------------------------------------------------
-    */
-
-    .article {
-      display: none;
-      max-width: 720px;
-    }
-
-    .article-date {
-      display: block;
-      margin-bottom: 0.75rem;
-      color: var(--grey);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-    }
-
-    .article-title {
-      margin: 0 0 2rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(1.65rem, 3vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-    }
-
-    .article-body {
-      max-width: 680px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1rem;
-      line-height: 1.75;
-    }
-
-    .article-body p {
-      margin: 0 0 1.5rem;
-    }
-
-    .article-body a {
-      color: var(--orange);
-      text-decoration: underline;
-      text-underline-offset: 0.2em;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Sichtbarer Artikel
-    |--------------------------------------------------------------------------
-    */
-
-    #view-medicine:checked
-      ~ main .article-medicine,
-
-    #view-emt-first:checked
-      ~ main .article-emt-first,
-    #view-emt-why:checked
-      ~ main .article-emt-why,
-    #view-emt-preparation:checked
-      ~ main .article-emt-preparation,
-
-    #view-politics-thesis:checked
-      ~ main .article-politics-thesis,
-    #view-politics-degree:checked
-      ~ main .article-politics-degree,
-
-    #view-university-senate:checked
-      ~ main .article-university-senate,
-    #view-university-parliament:checked
-      ~ main .article-university-parliament,
-    #view-university-asta:checked
-      ~ main .article-university-asta,
-
-    #view-local-council:checked
-      ~ main .article-local-council,
-
-    #view-social-youth:checked
-      ~ main .article-social-youth,
-    #view-social-frankfurt:checked
-      ~ main .article-social-frankfurt {
-      display: block;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Footer
-    |--------------------------------------------------------------------------
-    */
-
-    .site-footer {
-      display: flex;
-      justify-content: space-between;
-      gap: 2rem;
-      width: min(calc(100% - 3rem), var(--page-width));
-      margin: 0 auto;
-      padding: 2rem 0;
-      color: var(--grey);
-      font-size: 0.75rem;
-    }
-
-    .site-footer p {
-      margin: 0;
-    }
-
-    .site-footer a {
-      text-decoration: underline;
-      text-underline-offset: 0.2em;
-    }
-
-    .site-footer a:hover {
-      color: var(--orange);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Tablet
-    |--------------------------------------------------------------------------
-    */
-
-    @media (max-width: 850px) {
-      .blog {
-        grid-template-columns:
-          70px
-          minmax(170px, 220px)
-          minmax(0, 1fr);
-        gap: 2rem;
-      }
-
-      .article-title {
-        font-size: 1.75rem;
-      }
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Smartphone
-    |--------------------------------------------------------------------------
-    */
-
-    @media (max-width: 650px) {
-      .site-header {
-        min-height: 90px;
-      }
-
-      .blog {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        width: min(calc(100% - 2rem), var(--page-width));
-        margin-top: 2rem;
-      }
-
-      .stage {
-        position: static;
-        grid-template-rows: auto;
-        grid-template-columns: auto 1fr auto;
-        min-height: auto;
-      }
-
-      #view-medicine:checked
-        ~ main .stage-medicine,
-
-      #view-emt-first:checked
-        ~ main .stage-emt,
-      #view-emt-why:checked
-        ~ main .stage-emt,
-      #view-emt-preparation:checked
-        ~ main .stage-emt,
-
-      #view-politics-thesis:checked
-        ~ main .stage-politics,
-      #view-politics-degree:checked
-        ~ main .stage-politics,
-
-      #view-university-senate:checked
-        ~ main .stage-university,
-      #view-university-parliament:checked
-        ~ main .stage-university,
-      #view-university-asta:checked
-        ~ main .stage-university,
-
-      #view-local-council:checked
-        ~ main .stage-local,
-
-      #view-social-youth:checked
-        ~ main .stage-social,
-      #view-social-frankfurt:checked
-        ~ main .stage-social {
-        display: grid;
-      }
-
-      .stage-title {
-        margin: 0 1rem;
-        font-size: 0.8rem;
-        writing-mode: initial;
-        transform: none;
-      }
-
-      .stage-previous::before {
-        content: "←";
-      }
-
-      .stage-next::before {
-        content: "→";
-      }
-
-      .stage-arrow {
-        font-size: 0;
-      }
-
-      .stage-arrow::before {
-        font-size: 1.4rem;
-      }
-
-      .entries-heading {
-        margin-bottom: 1.5rem;
-      }
-
-      .entry-list {
-        gap: 1.5rem;
-      }
-
-      .article {
-        max-width: none;
-      }
-
-      .site-footer {
-        flex-direction: column;
-        width: min(calc(100% - 2rem), var(--page-width));
-        gap: 0.4rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-    }
-    /*
-|--------------------------------------------------------------------------
-| Farbkorrekturen
-|--------------------------------------------------------------------------
-*/
-
-/* Jahresangabe in der linken, vertikalen Spalte */
-.stage-period {
-  color: var(--grey);
-}
-
-/* Einträge mit etwas Innenabstand */
-.entry-link {
-  margin-inline: -0.75rem;
-  padding: 0.65rem 0.75rem;
-}
-
-/* Hover: orangefarbener Hintergrund, schwarze Schrift */
-.entry-link:hover {
-  background: var(--orange);
-  color: var(--black);
-}
-
-.entry-link:hover .entry-date,
-.entry-link:hover .entry-title {
-  color: var(--black);
-}
-
-/* Aktuell ausgewählter Eintrag */
-#view-medicine:checked
-  ~ main label[for="view-medicine"],
-
-#view-emt-first:checked
-  ~ main label[for="view-emt-first"],
-#view-emt-why:checked
-  ~ main label[for="view-emt-why"],
-#view-emt-preparation:checked
-  ~ main label[for="view-emt-preparation"],
-
-#view-politics-thesis:checked
-  ~ main label[for="view-politics-thesis"],
-#view-politics-degree:checked
-  ~ main label[for="view-politics-degree"],
-
-#view-university-senate:checked
-  ~ main label[for="view-university-senate"],
-#view-university-parliament:checked
-  ~ main label[for="view-university-parliament"],
-#view-university-asta:checked
-  ~ main label[for="view-university-asta"],
-
-#view-local-council:checked
-  ~ main label[for="view-local-council"],
-
-#view-social-youth:checked
-  ~ main label[for="view-social-youth"],
-#view-social-frankfurt:checked
-  ~ main label[for="view-social-frankfurt"] {
-  background: var(--orange);
-  color: var(--black);
-}
-
-/* Datum und Titel des ausgewählten Eintrags ebenfalls schwarz */
-#view-medicine:checked
-  ~ main label[for="view-medicine"] .entry-date,
-#view-medicine:checked
-  ~ main label[for="view-medicine"] .entry-title,
-
-#view-emt-first:checked
-  ~ main label[for="view-emt-first"] .entry-date,
-#view-emt-first:checked
-  ~ main label[for="view-emt-first"] .entry-title,
-#view-emt-why:checked
-  ~ main label[for="view-emt-why"] .entry-date,
-#view-emt-why:checked
-  ~ main label[for="view-emt-why"] .entry-title,
-#view-emt-preparation:checked
-  ~ main label[for="view-emt-preparation"] .entry-date,
-#view-emt-preparation:checked
-  ~ main label[for="view-emt-preparation"] .entry-title,
-
-#view-politics-thesis:checked
-  ~ main label[for="view-politics-thesis"] .entry-date,
-#view-politics-thesis:checked
-  ~ main label[for="view-politics-thesis"] .entry-title,
-#view-politics-degree:checked
-  ~ main label[for="view-politics-degree"] .entry-date,
-#view-politics-degree:checked
-  ~ main label[for="view-politics-degree"] .entry-title,
-
-#view-university-senate:checked
-  ~ main label[for="view-university-senate"] .entry-date,
-#view-university-senate:checked
-  ~ main label[for="view-university-senate"] .entry-title,
-#view-university-parliament:checked
-  ~ main label[for="view-university-parliament"] .entry-date,
-#view-university-parliament:checked
-  ~ main label[for="view-university-parliament"] .entry-title,
-#view-university-asta:checked
-  ~ main label[for="view-university-asta"] .entry-date,
-#view-university-asta:checked
-  ~ main label[for="view-university-asta"] .entry-title,
-
-#view-local-council:checked
-  ~ main label[for="view-local-council"] .entry-date,
-#view-local-council:checked
-  ~ main label[for="view-local-council"] .entry-title,
-
-#view-social-youth:checked
-  ~ main label[for="view-social-youth"] .entry-date,
-#view-social-youth:checked
-  ~ main label[for="view-social-youth"] .entry-title,
-#view-social-frankfurt:checked
-  ~ main label[for="view-social-frankfurt"] .entry-date,
-#view-social-frankfurt:checked
-  ~ main label[for="view-social-frankfurt"] .entry-title {
-  color: var(--black);
-}
-
-/* Den bisherigen Pfeil vor dem ausgewählten Titel entfernen */
-.entry-title::before {
-  content: none !important;
-}
-  </style>
+  <link
+    rel="stylesheet"
+    href="{{ '/assets/style.css' | relative_url }}"
+  >
 </head>
 
 <body>
 
   <!--
-  ========================================================================
-  Auswahlzustände
-  ========================================================================
-  Alle Beiträge verwenden dieselbe Radio-Gruppe.
-  Deshalb kann immer nur ein Beitrag gleichzeitig aktiv sein.
+    Jekyll erzeugt automatisch einen Radio-Button
+    für jeden Artikel.
   -->
 
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-medicine"
-    checked
-  >
+  {% for entry in entries %}
+    <input
+      class="state"
+      type="radio"
+      name="view"
+      id="view-{{ entry.entry_id }}"
+      {% if entry.entry_id == default_entry %}checked{% endif %}
+    >
+  {% endfor %}
 
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-emt-first"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-emt-why"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-emt-preparation"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-politics-thesis"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-politics-degree"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-university-senate"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-university-parliament"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-university-asta"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-local-council"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-social-youth"
-  >
-
-  <input
-    class="state"
-    type="radio"
-    name="view"
-    id="view-social-frankfurt"
-  >
-
-
-  <!-- Header -->
 
   <header class="site-header">
-    <a class="site-name" href="index.html">
-      Marius Michel
+    <a class="site-name" href="{{ '/' | relative_url }}">
+      {{ site.title }}
     </a>
   </header>
 
@@ -869,726 +63,128 @@
   <main>
     <div class="blog">
 
-      <!--
-      ====================================================================
-      Erste Spalte: Etappen
-      ====================================================================
-      Die Pfeile wählen jeweils den ersten Beitrag der vorherigen oder
-      nächsten Etappe aus.
-      -->
+      <!-- Erste Spalte: Etappen -->
 
-      <aside class="stage-column" aria-label="CV stages">
+      <aside
+        class="stage-column"
+        aria-label="CV stages"
+      >
+        {% for stage in site.data.stages %}
+          <div class="stage stage-{{ stage.id }}">
 
-        <!-- Human Medicine -->
+            <label
+              class="stage-arrow"
+              for="view-{{ stage.previous_entry }}"
+              title="Previous stage"
+              aria-label="Previous stage"
+            >
+              ↑
+            </label>
 
-        <div class="stage stage-medicine">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-social-youth"
-            title="Previous stage: Voluntary Social Year"
-          >
-            ↑
-          </label>
+            <div class="stage-title">
+              {{ stage.title }}
 
-          <div class="stage-title">
-            Human Medicine
-            <span class="stage-period">(from 2026)</span>
+              <span class="stage-period">
+                ({{ stage.period }})
+              </span>
+            </div>
+
+            <label
+              class="stage-arrow"
+              for="view-{{ stage.next_entry }}"
+              title="Next stage"
+              aria-label="Next stage"
+            >
+              ↓
+            </label>
+
           </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-emt-first"
-            title="Next stage: EMT Training"
-          >
-            ↓
-          </label>
-        </div>
-
-
-        <!-- EMT Training -->
-
-        <div class="stage stage-emt">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-medicine"
-            title="Previous stage: Human Medicine"
-          >
-            ↑
-          </label>
-
-          <div class="stage-title">
-            EMT Training
-            <span class="stage-period">(2026)</span>
-          </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-politics-thesis"
-            title="Next stage: Political Science"
-          >
-            ↓
-          </label>
-        </div>
-
-
-        <!-- Political Science -->
-
-        <div class="stage stage-politics">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-emt-first"
-            title="Previous stage: EMT Training"
-          >
-            ↑
-          </label>
-
-          <div class="stage-title">
-            Political Science
-            <span class="stage-period">(2021–2026)</span>
-          </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-university-senate"
-            title="Next stage: University Politics"
-          >
-            ↓
-          </label>
-        </div>
-
-
-        <!-- University Politics -->
-
-        <div class="stage stage-university">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-politics-thesis"
-            title="Previous stage: Political Science"
-          >
-            ↑
-          </label>
-
-          <div class="stage-title">
-            University Politics
-            <span class="stage-period">(2022–2025)</span>
-          </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-local-council"
-            title="Next stage: Local Politics"
-          >
-            ↓
-          </label>
-        </div>
-
-
-        <!-- Local Politics -->
-
-        <div class="stage stage-local">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-university-senate"
-            title="Previous stage: University Politics"
-          >
-            ↑
-          </label>
-
-          <div class="stage-title">
-            Local Politics
-            <span class="stage-period">(2021–2026)</span>
-          </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-social-youth"
-            title="Next stage: Voluntary Social Year"
-          >
-            ↓
-          </label>
-        </div>
-
-
-        <!-- Voluntary Social Year -->
-
-        <div class="stage stage-social">
-          <label
-            class="stage-arrow stage-previous"
-            for="view-local-council"
-            title="Previous stage: Local Politics"
-          >
-            ↑
-          </label>
-
-          <div class="stage-title">
-            Voluntary Social Year
-            <span class="stage-period">(2020–2021)</span>
-          </div>
-
-          <label
-            class="stage-arrow stage-next"
-            for="view-medicine"
-            title="Next stage: Human Medicine"
-          >
-            ↓
-          </label>
-        </div>
-
+        {% endfor %}
       </aside>
 
 
-      <!--
-      ====================================================================
-      Zweite Spalte: Einträge
-      ====================================================================
-      -->
+      <!-- Zweite Spalte: Artikellisten -->
 
-      <section class="entries-column" aria-label="Blog entries">
+      <section
+        class="entries-column"
+        aria-label="Blog entries"
+      >
+        {% for stage in site.data.stages %}
 
-        <!-- Human Medicine -->
+          {% assign stage_entries = entries
+            | where: "stage", stage.id %}
 
-        <div class="entries entries-medicine">
-          <p class="entries-heading">Entries</p>
+          <div class="entries entries-{{ stage.id }}">
+            <ol class="entry-list">
 
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-medicine">
-                <time class="entry-date" datetime="2026-10-01">
-                  01.10.2026
-                </time>
+              {% for entry in stage_entries %}
+                <li>
+                  <label
+                    class="entry-link"
+                    for="view-{{ entry.entry_id }}"
+                  >
+                    <time
+                      class="entry-date"
+                      datetime="{{ entry.date | date: '%Y-%m-%d' }}"
+                    >
+                      {{ entry.date | date: "%d.%m.%Y" }}
+                    </time>
 
-                <span class="entry-title">
-                  Beginning medical school
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
+                    <span class="entry-title">
+                      {{ entry.title }}
+                    </span>
+                  </label>
+                </li>
+              {% endfor %}
 
+            </ol>
+          </div>
 
-        <!-- EMT Training -->
-
-        <div class="entries entries-emt">
-          <p class="entries-heading">Entries</p>
-
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-emt-first">
-                <time class="entry-date" datetime="2026-06-08">
-                  08.06.2026
-                </time>
-
-                <span class="entry-title">
-                  First day of EMT training
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-emt-why">
-                <time class="entry-date" datetime="2026-05-20">
-                  20.05.2026
-                </time>
-
-                <span class="entry-title">
-                  Why emergency medicine?
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-emt-preparation">
-                <time class="entry-date" datetime="2026-04-14">
-                  14.04.2026
-                </time>
-
-                <span class="entry-title">
-                  Preparing for Hamburg
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
-
-
-        <!-- Political Science -->
-
-        <div class="entries entries-politics">
-          <p class="entries-heading">Entries</p>
-
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-politics-thesis">
-                <time class="entry-date" datetime="2026-06-30">
-                  30.06.2026
-                </time>
-
-                <span class="entry-title">
-                  My bachelor thesis
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-politics-degree">
-                <time class="entry-date" datetime="2026-06-15">
-                  15.06.2026
-                </time>
-
-                <span class="entry-title">
-                  Finishing my degree
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
-
-
-        <!-- University Politics -->
-
-        <div class="entries entries-university">
-          <p class="entries-heading">Entries</p>
-
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-university-senate">
-                <time class="entry-date" datetime="2025-09-30">
-                  30.09.2025
-                </time>
-
-                <span class="entry-title">
-                  Academic Senate
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-university-parliament">
-                <time class="entry-date" datetime="2025-09-15">
-                  15.09.2025
-                </time>
-
-                <span class="entry-title">
-                  Student Parliament
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-university-asta">
-                <time class="entry-date" datetime="2024-08-31">
-                  31.08.2024
-                </time>
-
-                <span class="entry-title">
-                  A year as AStA spokesperson
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
-
-
-        <!-- Local Politics -->
-
-        <div class="entries entries-local">
-          <p class="entries-heading">Entries</p>
-
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-local-council">
-                <time class="entry-date" datetime="2026-03-31">
-                  31.03.2026
-                </time>
-
-                <span class="entry-title">
-                  Five years in the City Council
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
-
-
-        <!-- Voluntary Social Year -->
-
-        <div class="entries entries-social">
-          <p class="entries-heading">Entries</p>
-
-          <ol class="entry-list">
-            <li>
-              <label class="entry-link" for="view-social-youth">
-                <time class="entry-date" datetime="2021-07-31">
-                  31.07.2021
-                </time>
-
-                <span class="entry-title">
-                  Youth work in Lahn-Dill/Eder
-                </span>
-              </label>
-            </li>
-
-            <li>
-              <label class="entry-link" for="view-social-frankfurt">
-                <time class="entry-date" datetime="2021-01-31">
-                  31.01.2021
-                </time>
-
-                <span class="entry-title">
-                  Bahnhofsmission Frankfurt
-                </span>
-              </label>
-            </li>
-          </ol>
-        </div>
-
+        {% endfor %}
       </section>
 
 
-      <!--
-      ====================================================================
-      Dritte Spalte: Artikel
-      ====================================================================
-      -->
-
-      <section class="article-column" aria-live="polite">
-
-        <!-- Human Medicine -->
-
-        <article class="article article-medicine">
-          <time class="article-date" datetime="2026-10-01">
-            01.10.2026
-          </time>
-
-          <h1 class="article-title">
-            Beginning medical school
-          </h1>
-
-          <div class="article-body">
-            <p>
-              In October 2026, I will begin studying human medicine
-              at Technische Universität Dresden.
-            </p>
-
-            <p>
-              This section will collect notes and observations from
-              my studies and the transition from political science
-              and emergency medicine to medical education.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- EMT: First day -->
-
-        <article class="article article-emt-first">
-          <time class="article-date" datetime="2026-06-08">
-            08.06.2026
-          </time>
-
-          <h1 class="article-title">
-            First day of EMT training
-          </h1>
-
-          <div class="article-body">
-            <p>
-              Today marked the beginning of my EMT training at
-              DRK-Schwesternschaft Hamburg.
-            </p>
-
-            <p>
-              The training combines theoretical instruction,
-              clinical experience and practical work in emergency
-              medical services.
-            </p>
-
-            <p>
-              I am especially interested in how medical knowledge,
-              communication and decision-making come together in
-              emergency situations.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- EMT: Why emergency medicine -->
-
-        <article class="article article-emt-why">
-          <time class="article-date" datetime="2026-05-20">
-            20.05.2026
-          </time>
-
-          <h1 class="article-title">
-            Why emergency medicine?
-          </h1>
-
-          <div class="article-body">
-            <p>
-              Emergency medicine combines practical responsibility,
-              teamwork and direct contact with people in difficult
-              situations.
-            </p>
-
-            <p>
-              For me, the training is also an opportunity to gain
-              practical experience before beginning my medical studies
-              at TU Dresden.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- EMT: Preparation -->
-
-        <article class="article article-emt-preparation">
-          <time class="article-date" datetime="2026-04-14">
-            14.04.2026
-          </time>
-
-          <h1 class="article-title">
-            Preparing for Hamburg
-          </h1>
-
-          <div class="article-body">
-            <p>
-              Before the training begins, there are practical questions
-              to answer: accommodation, schedules, equipment and
-              preparation.
-            </p>
-
-            <p>
-              At the same time, I am reviewing basic anatomy and
-              physiology and familiarizing myself with the structure
-              of emergency medical services in Germany.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- Political Science: Thesis -->
-
-        <article class="article article-politics-thesis">
-          <time class="article-date" datetime="2026-06-30">
-            30.06.2026
-          </time>
-
-          <h1 class="article-title">
-            My bachelor thesis
-          </h1>
-
-          <div class="article-body">
-            <p>
-              My bachelor thesis examines Herbert Marcuse’s theory
-              of one-dimensional society as a critique of predictive
-              policing technology.
-            </p>
-
-            <p>
-              The thesis asks how supposedly neutral technologies can
-              reproduce existing social structures and restrict the
-              political imagination of alternative forms of society.
-            </p>
-
-            <p>
-              Its title is “Criticizing the system is the most
-              revolutionary act – Herbert Marcuse’s theory of
-              one-dimensional society as a critique of predictive
-              policing technology.”
-            </p>
-          </div>
-        </article>
-
-
-        <!-- Political Science: Degree -->
-
-        <article class="article article-politics-degree">
-          <time class="article-date" datetime="2026-06-15">
-            15.06.2026
-          </time>
-
-          <h1 class="article-title">
-            Finishing my degree
-          </h1>
-
-          <div class="article-body">
-            <p>
-              After five years at Leuphana University Lüneburg,
-              I completed my B.A. in Political Science.
-            </p>
-
-            <p>
-              My studies focused on political theory, institutions
-              and the relationship between society, technology and power.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- University Politics: Senate -->
-
-        <article class="article article-university-senate">
-          <time class="article-date" datetime="2025-09-30">
-            30.09.2025
-          </time>
-
-          <h1 class="article-title">
-            Academic Senate
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From October 2024 to September 2025, I was a member
-              of the Academic Senate at Leuphana University Lüneburg.
-            </p>
-
-            <p>
-              The Senate offered an important perspective on academic
-              self-governance and the different interests that shape
-              a university.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- University Politics: Parliament -->
-
-        <article class="article article-university-parliament">
-          <time class="article-date" datetime="2025-09-15">
-            15.09.2025
-          </time>
-
-          <h1 class="article-title">
-            Student Parliament
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From February 2022 to November 2025, I was a member
-              of the Student Parliament and various student committees.
-            </p>
-
-            <p>
-              This work involved political debate, organizational
-              questions and the representation of student interests.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- University Politics: AStA -->
-
-        <article class="article article-university-asta">
-          <time class="article-date" datetime="2024-08-31">
-            31.08.2024
-          </time>
-
-          <h1 class="article-title">
-            A year as AStA spokesperson
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From July 2023 to August 2024, I served as an elected
-              spokesperson of the General Students’ Committee at
-              Leuphana University Lüneburg.
-            </p>
-
-            <p>
-              The role included political representation, coordination
-              and responsibility for organizational processes.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- Local Politics -->
-
-        <article class="article article-local-council">
-          <time class="article-date" datetime="2026-03-31">
-            31.03.2026
-          </time>
-
-          <h1 class="article-title">
-            Five years in the City Council
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From March 2021 to March 2026, I served as a member
-              of the City Council of Amöneburg.
-            </p>
-
-            <p>
-              Local politics makes the effects of political decisions
-              especially visible. It also shows how important direct
-              discussion, compromise and democratic participation are.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- Voluntary Social Year: Youth work -->
-
-        <article class="article article-social-youth">
-          <time class="article-date" datetime="2021-07-31">
-            31.07.2021
-          </time>
-
-          <h1 class="article-title">
-            Youth work in Lahn-Dill/Eder
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From February to July 2021, I completed the second part
-              of my Voluntary Social Year at a youth work center in
-              the Lahn-Dill/Eder region.
-            </p>
-
-            <p>
-              The work gave me practical experience in youth work,
-              communication and the organization of social projects.
-            </p>
-          </div>
-        </article>
-
-
-        <!-- Voluntary Social Year: Frankfurt -->
-
-        <article class="article article-social-frankfurt">
-          <time class="article-date" datetime="2021-01-31">
-            31.01.2021
-          </time>
-
-          <h1 class="article-title">
-            Bahnhofsmission Frankfurt
-          </h1>
-
-          <div class="article-body">
-            <p>
-              From August 2020 to January 2021, I worked at
-              Bahnhofsmission Frankfurt.
-            </p>
-
-            <p>
-              The experience shaped my understanding of social
-              inequality, practical assistance and respectful
-              communication with people in difficult situations.
-            </p>
-          </div>
-        </article>
-
+      <!-- Dritte Spalte: Artikel -->
+
+      <section
+        class="article-column"
+        aria-label="Selected entry"
+      >
+        {% for entry in entries %}
+          <article
+            class="article article-{{ entry.entry_id }}"
+          >
+            <time
+              class="article-date"
+              datetime="{{ entry.date | date: '%Y-%m-%d' }}"
+            >
+              {{ entry.date | date: "%d.%m.%Y" }}
+            </time>
+
+            <h1 class="article-title">
+              {{ entry.title }}
+            </h1>
+
+            <div class="article-body">
+              {{ entry.content }}
+            </div>
+          </article>
+        {% endfor %}
       </section>
+
     </div>
   </main>
 
 
   <footer class="site-footer">
-    <p>&copy; 2026 Marius Michel</p>
+    <p>
+      &copy; {{ site.time | date: "%Y" }}
+      {{ site.title }}
+    </p>
 
     <p>
-      <a href="mailto:kontakt@marius-michel.de">
-        kontakt@marius-michel.de
+      <a href="mailto:{{ site.email }}">
+        {{ site.email }}
       </a>
     </p>
   </footer>
