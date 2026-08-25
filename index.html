@@ -547,46 +547,70 @@ layout: null
         ==================================================================
         -->
 
-        <aside
-          class="stage-column"
-          aria-label="Etappen"
-        >
-          {% for stage in site.data.stages %}
-            {% assign stage_key = stage.id | append: "" | slugify %}
-            {% assign previous_key = stage.previous_entry | append: "" | slugify %}
-            {% assign next_key = stage.next_entry | append: "" | slugify %}
+        <aside class="stage-column" aria-label="Etappen">
+  {% assign stages = site.data.stages %}
+  {% assign stages_count = stages | size %}
 
-            <div class="stage stage-{{ stage_key }}">
-              <label
-                class="stage-arrow"
-                for="view-{{ previous_key }}"
-                title="Vorherige Etappe"
-                aria-label="Vorherige Etappe"
-              >
-                ↑
-              </label>
+  {% for stage in stages %}
+    {% assign stage_key = stage.id | append: "" | slugify %}
 
-              <div class="stage-title">
-                {{ stage.title | default: stage.id }}
+    {% assign previous_index = forloop.index0 | minus: 1 %}
+    {% assign next_index = forloop.index0 | plus: 1 %}
 
-                {% if stage.period %}
-                  <span class="stage-period">
-                    ({{ stage.period }})
-                  </span>
-                {% endif %}
-              </div>
+    {% if forloop.first %}
+      {% assign previous_index = stages_count | minus: 1 %}
+    {% endif %}
 
-              <label
-                class="stage-arrow"
-                for="view-{{ next_key }}"
-                title="Nächste Etappe"
-                aria-label="Nächste Etappe"
-              >
-                ↓
-              </label>
-            </div>
-          {% endfor %}
-        </aside>
+    {% if forloop.last %}
+      {% assign next_index = 0 %}
+    {% endif %}
+
+    {% assign previous_stage = stages[previous_index] %}
+    {% assign next_stage = stages[next_index] %}
+
+    {% assign previous_entry_key =
+      previous_stage.default_entry
+      | append: ""
+      | slugify
+    %}
+
+    {% assign next_entry_key =
+      next_stage.default_entry
+      | append: ""
+      | slugify
+    %}
+
+    <div class="stage stage-{{ stage_key }}">
+      <label
+        class="stage-arrow stage-arrow-previous"
+        for="view-{{ previous_entry_key }}"
+        title="Vorherige Etappe: {{ previous_stage.title }}"
+        aria-label="Vorherige Etappe: {{ previous_stage.title }}"
+      >
+        ↑
+      </label>
+
+      <div class="stage-title">
+        {{ stage.title | default: stage.id }}
+
+        {% if stage.period %}
+          <span class="stage-period">
+            ({{ stage.period }})
+          </span>
+        {% endif %}
+      </div>
+
+      <label
+        class="stage-arrow stage-arrow-next"
+        for="view-{{ next_entry_key }}"
+        title="Nächste Etappe: {{ next_stage.title }}"
+        aria-label="Nächste Etappe: {{ next_stage.title }}"
+      >
+        ↓
+      </label>
+    </div>
+  {% endfor %}
+</aside>
 
 
         <!--
