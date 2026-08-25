@@ -1,11 +1,10 @@
-title: Marius Michel
-email: kontakt@marius-michel.de
-description: Schreib mir mal eine E-Mail!
+title: "Marius Michel"
+email: "kontakt@marius-michel.de"
+description: "Langeweile in prärevolutionären Zeiten..."
 
-lang: de
-timezone: Europe/Berlin
-
-markdown: kramdown
+lang: "de"
+timezone: "Europe/Berlin"
+markdown: "kramdown"
 future: true
 
 collections:
