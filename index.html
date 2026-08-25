@@ -24,1135 +24,773 @@ layout: null
   <link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
 
   <style>
-    :root {
-      --white: #ffffff;
-      --black: #171717;
-      --orange: #f05a28;
-      --grey: #777777;
-      --page-width: 1050px;
-      --header-height: 72px;
-      --footer-height: 52px;
-    }
+  :root {
+    --white: #ffffff;
+    --black: #171717;
+    --text: #242424;
+    --orange: #e7592b;
+    --grey: #898989;
 
-    * {
-      box-sizing: border-box;
-    }
+    --page-width: 1050px;
+    --header-height: 72px;
+    --footer-height: 52px;
+  }
 
-    html {
-      scroll-behavior: smooth;
-    }
+  /*
+  |--------------------------------------------------------------------------
+  | Basis
+  |--------------------------------------------------------------------------
+  */
 
-    body {
-      min-height: 100vh;
-      margin: 0;
-      background: var(--white);
-      color: var(--black);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+  html {
+    scroll-behavior: smooth;
+  }
 
-    label {
-      cursor: pointer;
-    }
+  body {
+    min-height: 100vh;
+    margin: 0;
+    padding-top: var(--header-height);
+    padding-bottom: var(--footer-height);
 
-    /*
-    |--------------------------------------------------------------------------
-    | Unsichtbare Auswahlfelder
-    |--------------------------------------------------------------------------
-    */
+    background: var(--white);
+    color: var(--black);
 
-    .state {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      padding: 0;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      white-space: nowrap;
-      border: 0;
-    }
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Header
-    |--------------------------------------------------------------------------
-    */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-    .site-header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: var(--header-height);
-      padding: 1rem;
-    }
+  label {
+    cursor: pointer;
+  }
 
-    .site-name {
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-align: center;
-      text-transform: uppercase;
-    }
+  /*
+  |--------------------------------------------------------------------------
+  | Unsichtbare Radio-Buttons
+  |--------------------------------------------------------------------------
+  */
 
-    /*
-    |--------------------------------------------------------------------------
-    | Dreispaltiger Inhalt
-    |--------------------------------------------------------------------------
-    */
+  .state {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
 
-    .blog {
-      display: grid;
-      grid-template-columns: 64px 240px minmax(0, 1fr);
-      gap: clamp(2rem, 4vw, 3.5rem);
-      width: min(calc(100% - 3rem), var(--page-width));
-      min-height: 620px;
-      margin: clamp(2rem, 6vh, 5rem) auto 0;
-      padding-bottom: 5rem;
-    }
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
 
-    .stage-column,
-    .entries-column,
-    .article-column {
-      min-width: 0;
-    }
+  /*
+  |--------------------------------------------------------------------------
+  | Fixierter Header
+  |--------------------------------------------------------------------------
+  */
 
-    /*
-    |--------------------------------------------------------------------------
-    | Erste Spalte: Etappe
-    |--------------------------------------------------------------------------
-    */
-   .stage {
-  display: none;
-  position: sticky;
-  top: calc(var(--header-height) + 2rem);
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  gap: 1.25rem;
-  min-height: 430px;
-}
+  .site-header {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
 
-    .stage-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 2.75rem;
-      height: 2.75rem;
-      color: var(--grey);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1.4rem;
-      line-height: 1;
-      user-select: none;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    width: 100%;
+    min-height: var(--header-height);
+    padding: 1rem max(
+      1.5rem,
+      calc((100vw - var(--page-width)) / 2)
+    );
+
+    background: var(--white);
+  }
+
+  .site-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    color: var(--black);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .site-name::before {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex: 0 0 auto;
+    background: var(--orange);
+    content: "";
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Link zum aktuellen Eintrag
+  |--------------------------------------------------------------------------
+  */
+
+  .current-entry-link {
+    position: absolute;
+    right: max(
+      1.5rem,
+      calc((100vw - var(--page-width)) / 2)
+    );
+
+    padding: 0.45rem 0.6rem;
+    background: var(--orange);
+    color: var(--black);
+
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .current-entry-link:hover {
+    background: var(--black);
+    color: var(--white);
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Dreispaltiges Raster
+  |--------------------------------------------------------------------------
+  */
+
+  .blog {
+    display: grid;
+    grid-template-columns:
+      52px
+      210px
+      minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(2rem, 4vw, 3.25rem);
+
+    width: min(calc(100% - 3rem), var(--page-width));
+    min-height: calc(
+      100vh - var(--header-height) - var(--footer-height) - 4rem
+    );
+    min-height: calc(
+      100dvh - var(--header-height) - var(--footer-height) - 4rem
+    );
+
+    margin: clamp(3rem, 6vh, 4.5rem) auto 0;
+    padding-bottom: 3rem;
+  }
+
+  .stage-column,
+  .entries-column,
+  .article-column {
+    min-width: 0;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Erste Spalte: Etappe
+  |--------------------------------------------------------------------------
+  */
+
+  .stage {
+    display: none;
+    position: sticky;
+    top: calc(var(--header-height) + 3rem);
+
+    grid-template-rows: repeat(3, max-content);
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    gap: 1.25rem;
+
+    min-height: 360px;
+  }
+
+  .stage-title {
+    grid-row: 2;
+    grid-column: 1;
+
+    max-height: 270px;
+    margin: 0;
+
+    color: var(--black);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.67rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+    line-height: 1.45;
+    text-align: center;
+    text-transform: uppercase;
+
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+  }
+
+  .stage-period {
+    display: block;
+    margin-top: 0.65rem;
+    color: var(--grey);
+    font-weight: 400;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Etappenpfeile
+  |--------------------------------------------------------------------------
+  */
+
+  .stage-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    color: var(--grey);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0 !important;
+    line-height: 1;
+    user-select: none;
+  }
+
+  /* Erster Pfeil: neuere Etappe */
+
+  .stage-arrow-newer,
+  .stage > .stage-arrow:first-child {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .stage-arrow-newer::before,
+  .stage > .stage-arrow:first-child::before {
+    color: inherit;
+    font-size: 1rem;
+    content: "↑";
+  }
+
+  /* Letzter Pfeil: ältere Etappe */
+
+  .stage-arrow-older,
+  .stage > .stage-arrow:last-child {
+    grid-row: 3;
+    grid-column: 1;
+  }
+
+  .stage-arrow-older::before,
+  .stage > .stage-arrow:last-child::before {
+    color: inherit;
+    font-size: 1rem;
+    content: "↓";
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Zweite Spalte: Einträge
+  |--------------------------------------------------------------------------
+  */
+
+  .entries {
+    display: none;
+  }
+
+  .entry-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry-link {
+    display: block;
+    margin-inline: -0.45rem;
+    padding: 0.45rem;
+  }
+
+  .entry-date {
+    display: block;
+    margin-bottom: 0.1rem;
+
+    color: var(--grey);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.65rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
+  }
+
+  .entry-title {
+    display: block;
+
+    color: var(--black);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Hover
+  |--------------------------------------------------------------------------
+  */
+
+  @media (hover: hover) {
+    .entry-link:hover,
     .stage-arrow:hover {
       background: var(--orange);
       color: var(--black);
-    }
-
-    .stage-title {
-      margin: 2rem 0;
-      color: var(--black);
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-align: center;
-      text-transform: uppercase;
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-    }
-
-    .stage-period {
-      color: var(--grey);
-      font-weight: 400;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Zweite Spalte: Artikelliste
-    |--------------------------------------------------------------------------
-    */
-
-    .entries {
-      display: none;
-    }
-
-    .entry-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .entry-link {
-      display: block;
-      margin-inline: -0.75rem;
-      padding: 0.7rem 0.75rem;
-    }
-
-    .entry-link:hover {
-      background: var(--orange);
-      color: var(--black);
-    }
-
-    .entry-date {
-      display: block;
-      margin-bottom: 0.25rem;
-      color: var(--grey);
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-    }
-
-    .entry-title {
-      display: block;
-      color: var(--black);
-      font-size: 0.95rem;
-      font-weight: 700;
-      line-height: 1.35;
     }
 
     .entry-link:hover .entry-date,
     .entry-link:hover .entry-title {
       color: var(--black);
     }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dritte Spalte: Artikel
-    |--------------------------------------------------------------------------
-    */
-
-    .article {
-      display: none;
-      max-width: 720px;
-    }
-
-    .article-date {
-      display: block;
-      margin-bottom: 0.75rem;
-      color: var(--grey);
-      font-size: 0.75rem;
-      letter-spacing: 0.06em;
-    }
-
-    .article-title {
-      margin: 0 0 2rem;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: clamp(1.65rem, 3vw, 2.5rem);
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1.15;
-    }
-
-    .article-body {
-      max-width: 680px;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 1rem;
-      line-height: 1.75;
-    }
-
-    .article-body p {
-      margin: 0 0 1.5rem;
-    }
-
-    .article-body h2 {
-      margin: 2.5rem 0 1rem;
-      font-size: 1.25rem;
-      line-height: 1.3;
-    }
-
-    .article-body h3 {
-      margin: 2rem 0 0.75rem;
-      font-size: 1.05rem;
-    }
-
-    .article-body ul,
-    .article-body ol {
-      margin: 0 0 1.5rem;
-      padding-left: 1.5rem;
-    }
-
-    .article-body blockquote {
-      margin: 2rem 0;
-      padding-left: 1.25rem;
-      color: var(--grey);
-      border-left: 0.3rem solid var(--orange);
-    }
-
-    .article-body a {
-      color: var(--orange);
-      text-decoration: underline;
-      text-underline-offset: 0.2em;
-    }
-
-    .article-body img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-      margin: 2rem 0;
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Meldung bei fehlenden Einträgen
-    |--------------------------------------------------------------------------
-    */
-
-    .empty-message {
-      grid-column: 1 / -1;
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .empty-message h1 {
-      margin: 0 0 1rem;
-      font-size: 1.3rem;
-    }
-
-    .empty-message p {
-      margin: 0;
-      color: var(--grey);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Dynamisch erzeugte Auswahlregeln
-    |--------------------------------------------------------------------------
-    */
-
-    {% for entry in entries %}
-      {% assign entry_key = entry.entry_id | append: "" | slugify %}
-      {% assign stage_key = entry.stage | append: "" | slugify %}
-
-      #view-{{ entry_key }}:checked
-        ~ main .stage-{{ stage_key }} {
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-      }
-
-      #view-{{ entry_key }}:checked
-        ~ main .entries-{{ stage_key }} {
-        display: block;
-      }
-
-      #view-{{ entry_key }}:checked
-        ~ main .article-{{ entry_key }} {
-        display: block;
-      }
-
-      #view-{{ entry_key }}:checked
-        ~ main label[for="view-{{ entry_key }}"].entry-link {
-        background: var(--orange);
-        color: var(--black);
-      }
-
-      #view-{{ entry_key }}:checked
-        ~ main label[for="view-{{ entry_key }}"].entry-link
-        .entry-date,
-
-      #view-{{ entry_key }}:checked
-        ~ main label[for="view-{{ entry_key }}"].entry-link
-        .entry-title {
-        color: var(--black);
-      }
-
-      #view-{{ entry_key }}:focus-visible
-        ~ main label[for="view-{{ entry_key }}"].entry-link {
-        outline: 2px solid var(--orange);
-        outline-offset: 3px;
-      }
-    {% endfor %}
-
-    /*
-    |--------------------------------------------------------------------------
-    | Footer
-    |--------------------------------------------------------------------------
-    */
-
-    .site-footer {
-      display: flex;
-      font-family: "Courier New", Courier, monospace;
-      justify-content: space-between;
-      gap: 2rem;
-      width: min(calc(100% - 3rem), var(--page-width));
-      margin: 0 auto;
-      padding: 2rem 0;
-      color: var(--grey);
-      font-size: 0.75rem;
-       min-height: var(--footer-height);
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-    }
-
-    .site-footer p {
-      margin: 0;
-    }
-
-    .site-footer a {
-      text-decoration: underline;
-      text-underline-offset: 0.2em;
-    }
-
-    .site-footer a:hover {
-      color: var(--orange);
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Tablet
-    |--------------------------------------------------------------------------
-    */
-
-    @media (max-width: 850px) {
-      .blog {
-        grid-template-columns:
-          70px
-          minmax(170px, 220px)
-          minmax(0, 1fr);
-        gap: 2rem;
-      }
-
-      .article-title {
-        font-size: 1.75rem;
-      }
-    }
-
-    /*
-    |--------------------------------------------------------------------------
-    | Smartphone
-    |--------------------------------------------------------------------------
-    */
-
-    @media (max-width: 650px) {
-      .site-header {
-        min-height: 90px;
-      }
-
-      .blog {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        width: min(calc(100% - 2rem), var(--page-width));
-        min-height: auto;
-        margin-top: 2rem;
-      }
-
-      .stage {
-        position: static;
-        grid-template-columns: auto 1fr auto;
-        grid-template-rows: auto !important;
-        min-height: auto;
-      }
-
-      .stage-title {
-        margin: 0 1rem;
-        font-size: 0.8rem;
-        writing-mode: initial;
-        transform: none;
-      }
-
-      .stage-arrow {
-        font-size: 0;
-      }
-
-      .article {
-        max-width: none;
-      }
-
-      .site-footer {
-        flex-direction: column;
-        gap: 0.4rem;
-        width: min(calc(100% - 2rem), var(--page-width));
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-    }
-
-/*
-|--------------------------------------------------------------------------
-| Sleek design + feste Kopf- und Fußzeile
-|--------------------------------------------------------------------------
-*/
-
-:root {
-  --white: #ffffff;
-  --black: #181818;
-  --orange: #e85d2a;
-  --grey: #858585;
-  --page-width: 1050px;
-  --header-height: 96px;
-  --footer-height: 64px;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Platz für die fixierten Elemente
-|--------------------------------------------------------------------------
-*/
-
-body {
-  padding-top: var(--header-height);
-  padding-bottom: var(--footer-height);
-}
-
-/*
-|--------------------------------------------------------------------------
-| Fixierte Kopfzeile
-|--------------------------------------------------------------------------
-*/
-
-.site-header {
-  position: fixed;
-  z-index: 1000;
-  top: 0;
-  right: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-  min-height: var(--header-height);
-  padding: 1.5rem;
-
-  background: var(--white);
-  opacity: 1;
-}
-
-.site-name {
-  color: var(--black);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-align: center;
-  text-transform: uppercase;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Kompakteres Layout
-|--------------------------------------------------------------------------
-*/
-
-.blog {
-  grid-template-columns:
-    64px
-    230px
-    minmax(0, 1fr);
-
-  gap: clamp(2rem, 4vw, 3.5rem);
-  width: min(calc(100% - 3rem), var(--page-width));
-  min-height: calc(
-    100vh - var(--header-height) - var(--footer-height) - 5rem
-  );
-
-  margin-top: clamp(2.5rem, 7vh, 5rem);
-  padding-bottom: 4rem;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Etappennavigation
-|--------------------------------------------------------------------------
-*/
-
-.stage {
-  top: calc(var(--header-height) + 2rem);
-  align-content: center;
-  gap: 1.25rem;
-  min-height: 430px;
-}
-
-.stage-title {
-  margin: 0;
-  color: var(--black);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.11em;
-  line-height: 1.5;
-}
-
-.stage-period {
-  color: var(--grey);
-  font-weight: 400;
-}
-
-.stage-arrow {
-  width: 2.25rem;
-  height: 2.25rem;
-  color: var(--grey);
-  font-size: 1.15rem;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Eintragsliste
-|--------------------------------------------------------------------------
-*/
-
-.entry-list {
-  gap: 0.8rem;
-}
-
-.entry-link {
-  margin-inline: -0.6rem;
-  padding: 0.55rem 0.6rem;
-}
-
-.entry-date {
-  margin-bottom: 0.2rem;
-  color: var(--grey);
-  font-size: 0.67rem;
-  letter-spacing: 0.07em;
-}
-
-.entry-title {
-  color: var(--black);
-  font-size: 0.9rem;
-  line-height: 1.35;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Aktiver Eintrag und Hover
-|--------------------------------------------------------------------------
-*/
-
-@media (hover: hover) {
-  .entry-link:hover,
-  .stage-arrow:hover {
-    background: var(--orange);
-    color: var(--black);
   }
 
-  .entry-link:hover .entry-date,
-  .entry-link:hover .entry-title {
-    color: var(--black);
+  /*
+  |--------------------------------------------------------------------------
+  | Dritte Spalte: Artikel
+  |--------------------------------------------------------------------------
+  */
+
+  .article-column {
+    scroll-margin-top: calc(var(--header-height) + 2rem);
   }
-}
 
-/*
-|--------------------------------------------------------------------------
-| Artikel
-|--------------------------------------------------------------------------
-*/
+  .article {
+    display: none;
+    max-width: 640px;
+  }
 
-.article {
-  max-width: 660px;
-}
+  .article-date {
+    display: block;
+    margin-bottom: 0.4rem;
 
-.article-date {
-  margin-bottom: 0.65rem;
-  color: var(--grey);
-  font-size: 0.7rem;
-  letter-spacing: 0.07em;
-}
-
-.article-title {
-  margin: 0 0 1.75rem;
-  color: var(--black);
-  font-size: clamp(1.5rem, 2.3vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.2;
-}
-
-.article-body {
-  max-width: 620px;
-  color: #242424;
-  font-size: 0.98rem;
-  line-height: 1.75;
-}
-
-.article-body p {
-  margin: 0 0 1.25rem;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Fixierte Fußzeile
-|--------------------------------------------------------------------------
-*/
-
-.site-footer {
-  position: fixed;
-  z-index: 1000;
-  right: 0;
-  bottom: 0;
-  left: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 100%;
-  min-height: var(--footer-height);
-  margin: 0;
-
-  padding-top: 1rem;
-  padding-right: max(
-    1.5rem,
-    calc((100vw - var(--page-width)) / 2)
-  );
-  padding-bottom: 1rem;
-  padding-left: max(
-    1.5rem,
-    calc((100vw - var(--page-width)) / 2)
-  );
-
-  background: var(--white);
-  color: var(--grey);
-  opacity: 1;
-
-  font-size: 0.68rem;
-}
-
-.site-footer p {
-  margin: 0;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Tastaturfokus
-|--------------------------------------------------------------------------
-*/
-
-.entry-link:focus-visible,
-.stage-arrow:focus-visible,
-.site-name:focus-visible,
-.site-footer a:focus-visible {
-  outline: 2px solid var(--orange);
-  outline-offset: 3px;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Tablet
-|--------------------------------------------------------------------------
-*/
-
-@media (max-width: 850px) {
-  .blog {
-    grid-template-columns:
-      58px
-      200px
-      minmax(0, 1fr);
-
-    gap: 1.75rem;
+    color: var(--grey);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.67rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.08em;
   }
 
   .article-title {
-    font-size: 1.75rem;
-  }
-}
+    margin: 0 0 1.5rem;
 
-/*
-|--------------------------------------------------------------------------
-| Smartphone
-|--------------------------------------------------------------------------
-*/
-
-@media (max-width: 650px) {
-  :root {
-    --header-height: 82px;
-    --footer-height: 82px;
-  }
-
-  body {
-    padding-top: var(--header-height);
-    padding-bottom: var(--footer-height);
-  }
-
-  .site-header {
-    min-height: var(--header-height);
-    padding: 1.25rem 1rem;
-  }
-
-  .site-name {
-    font-size: 0.8rem;
-  }
-
-  .blog {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-
-    width: min(
-      calc(100% - 2rem),
-      var(--page-width)
-    );
-
-    min-height: auto;
-    margin-top: 1.5rem;
-    padding-bottom: 3rem;
-  }
-
-  .stage {
-    position: static;
-    top: auto;
-    gap: 0.75rem;
-    min-height: auto;
-  }
-
-  .stage-title {
-    font-size: 0.72rem;
-  }
-
-  .entry-list {
-    gap: 0.5rem;
-  }
-
-  .entry-link {
-    margin-inline: 0;
-  }
-
-  .article-title {
-    font-size: 1.6rem;
-  }
-
-  .site-footer {
-    align-items: flex-start;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.2rem;
-
-    min-height: var(--footer-height);
-    padding: 0.8rem 1rem;
-  }
-}
-/*
-|--------------------------------------------------------------------------
-| Minimal Bauhaus refinement
-|--------------------------------------------------------------------------
-*/
-
-:root {
-  --white: #ffffff;
-  --black: #171717;
-  --orange: #e85b2a;
-  --grey: #858585;
-  --page-width: 1050px;
-  --header-height: 72px;
-  --footer-height: 52px;
-}
-
-body {
-  padding-top: var(--header-height);
-  padding-bottom: var(--footer-height);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Header */
-
-.site-header {
-  min-height: var(--header-height);
-  padding: 1rem;
-  background: var(--white);
-}
-
-.site-name {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-}
-
-.site-name::before {
-  width: 0.5rem;
-  height: 0.5rem;
-  flex: 0 0 auto;
-  background: var(--orange);
-  content: "";
-}
-
-/* Layout */
-
-.blog {
-  grid-template-columns:
-    52px
-    210px
-    minmax(0, 1fr);
-  gap: clamp(2rem, 4vw, 3.25rem);
-  min-height: calc(
-    100vh - var(--header-height) - var(--footer-height) - 4rem
-  );
-  margin-top: clamp(3rem, 6vh, 4.5rem);
-  padding-bottom: 3rem;
-}
-
-/* Etappe */
-
-.stage {
-  display: none;
-  position: sticky;
-  top: calc(var(--header-height) + 3rem);
-  align-content: center;
-  align-items: center;
-  justify-items: center;
-  gap: 1rem;
-  min-height: 410px;
-}
-
-.stage-title {
-  max-height: 290px;
-  margin: 0;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.45;
-}
-
-.stage-period {
-  display: block;
-  margin-top: 0.75rem;
-  color: var(--grey);
-  font-weight: 400;
-}
-
-.stage-arrow {
-  width: 2rem;
-  height: 2rem;
-  color: var(--grey);
-  font-size: 1rem;
-}
-
-/* Einträge */
-
-.entry-list {
-  gap: 0.65rem;
-}
-
-.entry-link {
-  margin-inline: -0.5rem;
-  padding: 0.48rem 0.5rem;
-}
-
-.entry-date {
-  margin-bottom: 0.15rem;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-}
-
-.entry-title {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 0.88rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-/* Artikel */
-
-.article {
-  max-width: 620px;
-}
-
-.article-date {
-  margin-bottom: 0.4rem;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.67rem;
-  letter-spacing: 0.08em;
-}
-
-.article-title {
-  margin: 0 0 1.5rem;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: clamp(1.55rem, 2.2vw, 2rem);
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  line-height: 1.15;
-}
-
-.article-body {
-  max-width: 58ch;
-  color: #242424;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-
-.article-body p {
-  margin-bottom: 1.2rem;
-}
-
-/* Footer */
-
-.site-footer {
-  min-height: var(--footer-height);
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
-  background: var(--white);
-  color: #969696;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 0.64rem;
-  letter-spacing: 0.03em;
-}
-
-.site-footer a {
-  text-decoration: none;
-}
-
-.site-footer a:hover {
-  color: var(--black);
-}
-
-/* Mausinteraktionen */
-
-@media (hover: hover) {
-  .entry-link:hover,
-  .stage-arrow:hover {
-    background: var(--orange);
     color: var(--black);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1.6rem, 2.2vw, 2.1rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    text-wrap: balance;
   }
 
-  .entry-link:hover .entry-date,
-  .entry-link:hover .entry-title {
-    color: var(--black);
-  }
-}
+  .article-body {
+    max-width: 58ch;
 
-/* Mobil */
-
-@media (max-width: 650px) {
-  :root {
-    --header-height: 64px;
-    --footer-height: 72px;
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
-  .blog {
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
-    margin-top: 2rem;
+  .article-body p {
+    margin: 0 0 1.25rem;
   }
 
-  .stage {
-    position: static;
-    min-height: auto;
+  .article-body h2 {
+    margin: 2.75rem 0 0.8rem;
+    font-size: 1.15rem;
+    line-height: 1.3;
   }
 
-  .stage-title {
-    max-height: none;
-    font-size: 0.68rem;
-    writing-mode: initial;
-    transform: none;
+  .article-body h3 {
+    margin: 2rem 0 0.65rem;
+    font-size: 1rem;
+    line-height: 1.35;
   }
 
-  .stage-period {
-    display: inline;
-    margin: 0 0 0 0.4rem;
+  .article-body ul,
+  .article-body ol {
+    margin: 0 0 1.5rem;
+    padding-left: 1.5rem;
   }
 
-  .article-title {
-    font-size: 1.55rem;
-  }
-}
-
-/*
-|--------------------------------------------------------------------------
-| Etappenpfeile
-|--------------------------------------------------------------------------
-*/
-
-/* Der Textinhalt der Labels wird grundsätzlich ausgeblendet. */
-.stage-arrow {
-  font-size: 0 !important;
-}
-
-/*
- * Desktop:
- * oben = neuer
- * unten = älter
- */
-
-.stage-arrow-newer {
-  grid-row: 1;
-  grid-column: 1;
-}
-
-.stage-title {
-  grid-row: 2;
-  grid-column: 1;
-}
-
-.stage-arrow-older {
-  grid-row: 3;
-  grid-column: 1;
-}
-
-.stage .stage-arrow-newer::before {
-  content: "↑" !important;
-  font-size: 1rem;
-}
-
-.stage .stage-arrow-older::before {
-  content: "↓" !important;
-  font-size: 1rem;
-}
-
-/*
-|--------------------------------------------------------------------------
-| Smartphone
-|--------------------------------------------------------------------------
-*/
-
-@media (max-width: 650px) {
-  .stage {
-    grid-template-columns: 2.25rem minmax(0, 1fr) 2.25rem;
-    grid-template-rows: auto !important;
-    align-items: center;
+  .article-body blockquote {
+    margin: 2rem 0;
+    padding-left: 1.25rem;
+    color: var(--grey);
+    border-left: 0.3rem solid var(--orange);
   }
 
-  /* Links: ältere Etappe */
-  .stage-arrow-older {
-    grid-row: 1;
-    grid-column: 1;
+  .article-body a {
+    color: var(--orange);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
   }
 
-  /* Mitte: aktuelle Etappe */
-  .stage-title {
-    grid-row: 1;
-    grid-column: 2;
-    margin: 0 0.75rem;
+  .article-body img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 2rem 0;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Leere Collection
+  |--------------------------------------------------------------------------
+  */
+
+  .empty-message {
+    grid-column: 1 / -1;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 2rem;
     text-align: center;
   }
 
-  /* Rechts: neuere Etappe */
-  .stage-arrow-newer {
-    grid-row: 1;
-    grid-column: 3;
+  .empty-message h1 {
+    margin: 0 0 1rem;
+    font-size: 1.3rem;
   }
 
-  .stage .stage-arrow-older::before {
-    content: "←" !important;
-    font-size: 1.2rem;
+  .empty-message p {
+    margin: 0;
+    color: var(--grey);
   }
 
-  .stage .stage-arrow-newer::before {
-    content: "→" !important;
-    font-size: 1.2rem;
+  /*
+  |--------------------------------------------------------------------------
+  | Dynamische Auswahlregeln
+  |--------------------------------------------------------------------------
+  */
+
+  {% for entry in entries %}
+    {% assign entry_key = entry.entry_id | append: "" | slugify %}
+    {% assign stage_key = entry.stage | append: "" | slugify %}
+
+    /* Aktuelle Etappe */
+
+    #view-{{ entry_key }}:checked
+      ~ main .stage-{{ stage_key }} {
+      display: grid;
+      grid-template-rows: repeat(3, max-content);
+    }
+
+    /* Einträge der aktuellen Etappe */
+
+    #view-{{ entry_key }}:checked
+      ~ main .entries-{{ stage_key }} {
+      display: block;
+    }
+
+    /* Ausgewählter Artikel */
+
+    #view-{{ entry_key }}:checked
+      ~ main .article-{{ entry_key }} {
+      display: block;
+    }
+
+    /* Aktiver Eintrag */
+
+    #view-{{ entry_key }}:checked
+      ~ main label[for="view-{{ entry_key }}"].entry-link {
+      background: var(--orange);
+      color: var(--black);
+    }
+
+    #view-{{ entry_key }}:checked
+      ~ main label[for="view-{{ entry_key }}"].entry-link
+      .entry-date,
+
+    #view-{{ entry_key }}:checked
+      ~ main label[for="view-{{ entry_key }}"].entry-link
+      .entry-title {
+      color: var(--black);
+    }
+
+    /* Tastaturfokus des unsichtbaren Radio-Buttons */
+
+    #view-{{ entry_key }}:focus-visible
+      ~ main label[for="view-{{ entry_key }}"].entry-link {
+      outline: 2px solid var(--orange);
+      outline-offset: 3px;
+    }
+  {% endfor %}
+
+  /*
+  |--------------------------------------------------------------------------
+  | Fixierter Footer
+  |--------------------------------------------------------------------------
+  */
+
+  .site-footer {
+    position: fixed;
+    z-index: 1000;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+
+    width: 100%;
+    min-height: var(--footer-height);
+    margin: 0;
+    padding:
+      0.65rem
+      max(1.5rem, calc((100vw - var(--page-width)) / 2));
+
+    background: var(--white);
+    color: #969696;
+
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.03em;
   }
-}
-    
-  </style>
+
+  .site-footer p {
+    margin: 0;
+  }
+
+  .site-footer a {
+    text-decoration: none;
+  }
+
+  .site-footer a:hover {
+    color: var(--black);
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Tastaturfokus
+  |--------------------------------------------------------------------------
+  */
+
+  .site-name:focus-visible,
+  .current-entry-link:focus-visible,
+  .site-footer a:focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 3px;
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Tablet
+  |--------------------------------------------------------------------------
+  */
+
+  @media (max-width: 850px) {
+    .blog {
+      grid-template-columns:
+        52px
+        190px
+        minmax(0, 1fr);
+      gap: 1.75rem;
+    }
+
+    .article-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Smartphone
+  |--------------------------------------------------------------------------
+  */
+
+  @media (max-width: 650px) {
+    :root {
+      --header-height: 64px;
+      --footer-height: 72px;
+    }
+
+    body {
+      padding-top: var(--header-height);
+      padding-bottom: var(--footer-height);
+    }
+
+    .site-header {
+      min-height: var(--header-height);
+      padding: 0.75rem 1rem;
+    }
+
+    .site-name {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+    }
+
+    .site-name::before {
+      width: 0.45rem;
+      height: 0.45rem;
+    }
+
+    .current-entry-link {
+      right: 1rem;
+      width: 2rem;
+      height: 2rem;
+      padding: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 0;
+    }
+
+    .current-entry-link::after {
+      font-size: 0.9rem;
+      content: "↓";
+    }
+
+    .blog {
+      grid-template-columns: 1fr;
+      gap: 2.25rem;
+
+      width: min(calc(100% - 2rem), var(--page-width));
+      min-height: auto;
+      margin-top: 2rem;
+      padding-bottom: 3rem;
+    }
+
+    /*
+    | Mobile Etappennavigation:
+    | links = ältere Etappe
+    | rechts = neuere Etappe
+    */
+
+    .stage {
+      position: static;
+      top: auto;
+
+      grid-template-columns:
+        2.25rem
+        minmax(0, 1fr)
+        2.25rem;
+      grid-template-rows: auto !important;
+      align-items: center;
+      gap: 0.75rem;
+
+      min-height: auto;
+    }
+
+    .stage-title {
+      grid-row: 1;
+      grid-column: 2;
+
+      max-height: none;
+      margin: 0 0.5rem;
+
+      font-size: 0.67rem;
+      text-align: center;
+      writing-mode: initial;
+      transform: none;
+    }
+
+    .stage-period {
+      display: inline;
+      margin: 0 0 0 0.4rem;
+    }
+
+    /* Links: ältere Etappe */
+
+    .stage-arrow-older,
+    .stage > .stage-arrow:last-child {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .stage-arrow-older::before,
+    .stage > .stage-arrow:last-child::before {
+      font-size: 1.15rem;
+      content: "←";
+    }
+
+    /* Rechts: neuere Etappe */
+
+    .stage-arrow-newer,
+    .stage > .stage-arrow:first-child {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    .stage-arrow-newer::before,
+    .stage > .stage-arrow:first-child::before {
+      font-size: 1.15rem;
+      content: "→";
+    }
+
+    .entry-list {
+      gap: 0.5rem;
+    }
+
+    .entry-link {
+      margin-inline: 0;
+    }
+
+    .article-column {
+      scroll-margin-top: calc(var(--header-height) + 1rem);
+    }
+
+    .article {
+      max-width: none;
+    }
+
+    .article-title {
+      font-size: 1.55rem;
+    }
+
+    .site-footer {
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.15rem;
+
+      min-height: var(--footer-height);
+      padding: 0.7rem 1rem;
+    }
+  }
+
+  /*
+  |--------------------------------------------------------------------------
+  | Reduzierte Bewegung
+  |--------------------------------------------------------------------------
+  */
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+</style>
 </head>
 
 <body>
