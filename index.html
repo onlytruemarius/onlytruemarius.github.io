@@ -33,7 +33,7 @@ layout: null
       --black: #171717;
       --orange: #f05a28;
       --grey: #777777;
-      --page-width: 1200px;
+      --page-width: 1050px;
     }
 
     * {
@@ -112,11 +112,8 @@ layout: null
 
     .blog {
       display: grid;
-      grid-template-columns:
-        90px
-        minmax(220px, 280px)
-        minmax(0, 1fr);
-      gap: clamp(2rem, 5vw, 5rem);
+      grid-template-columns: 64px 240px minmax(0, 1fr);
+      gap: clamp(2rem, 4vw, 3.5rem);
       width: min(calc(100% - 3rem), var(--page-width));
       min-height: 620px;
       margin: clamp(2rem, 6vh, 5rem) auto 0;
@@ -134,14 +131,12 @@ layout: null
     | Erste Spalte: Etappe
     |--------------------------------------------------------------------------
     */
-
     .stage {
-      display: none;
       position: sticky;
-      top: 2rem;
-      align-items: center;
-      justify-items: center;
-      min-height: 420px;
+      top: 25vh;
+      align-content: center;
+      gap: 1.5rem;
+      min-height: 360px;
     }
 
     .stage-arrow {
