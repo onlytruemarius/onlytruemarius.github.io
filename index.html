@@ -34,6 +34,8 @@ layout: null
       --orange: #f05a28;
       --grey: #777777;
       --page-width: 1050px;
+      --header-height: 72px;
+      --footer-height: 52px;
     }
 
     * {
@@ -49,7 +51,7 @@ layout: null
       margin: 0;
       background: var(--white);
       color: var(--black);
-      font-family: "Courier New", Courier, monospace;
+      font-family: Arial, Helvetica, sans-serif;
       font-size: 1rem;
       line-height: 1.6;
     }
@@ -92,8 +94,8 @@ layout: null
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 110px;
-      padding: 2rem 1.5rem;
+      min-height: var(--header-height);
+      padding: 1rem;
     }
 
     .site-name {
@@ -385,6 +387,7 @@ layout: null
 
     .site-footer {
       display: flex;
+      font-family: "Courier New", Courier, monospace;
       justify-content: space-between;
       gap: 2rem;
       width: min(calc(100% - 3rem), var(--page-width));
@@ -392,6 +395,9 @@ layout: null
       padding: 2rem 0;
       color: var(--grey);
       font-size: 0.75rem;
+       min-height: var(--footer-height);
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
     }
 
     .site-footer p {
