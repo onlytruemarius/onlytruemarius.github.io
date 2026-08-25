@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Marius Michel</title>
+
+  <meta
+    name="description"
+    content="Personal notes about education, emergency medicine and public engagement."
+  >
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://em-content.zobj.net/source/apple/391/waving-hand_1f44b.png"
+  >
+
+  <style>
+    :root {
+      --white: #fff;
+      --black: #111;
+      --orange: #f15a24;
+      --grey: #707070;
+      --light-grey: #e5e5e5;
+      --width: 1500px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: var(--white);
+      color: var(--black);
+      font-family: "Courier New", Courier, monospace;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Unsichtbare CSS-Steuerung
+    |--------------------------------------------------------------------------
+    */
+
+    .state {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Header
+    |--------------------------------------------------------------------------
+    */
+
+    .site-header,
+    .intro,
+    .layout,
+    .site-footer {
+      width: min(calc(100% - 3rem), var(--width));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .wordmark::before {
+      width: 1.25rem;
+      height: 1.25rem;
+      flex: 0 0 auto;
+      background: var(--orange);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .header-info {
+      margin: 0;
+      color: var(--grey);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-align: right;
+      text-transform: uppercase;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Einleitung
+    |--------------------------------------------------------------------------
+    */
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      padding: clamp(3rem, 7vw, 7rem) 0;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .eyebrow,
+    .column-title {
+      margin: 0;
+      color: var(--orange);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .intro h1 {
+      max-width: 1000px;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(2.7rem, 6vw, 6rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+
+    .intro-text {
+      grid-column: 2;
+      max-width: 720px;
+      margin: 0;
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Dreispaltiges Layout
+    |--------------------------------------------------------------------------
+    */
+
+    .layout {
+      display: grid;
+      grid-template-columns:
+        minmax(190px, 0.85fr)
+        minmax(250px, 1.1fr)
+        minmax(400px, 2.5fr);
+      border-bottom: 2px solid var(--black);
+    }
+
+    .column {
+      min-width: 0;
+      padding: 2rem;
+    }
+
+    .column:first-child {
+      padding-left: 0;
+    }
+
+    .column:last-child {
+      padding-right: 0;
+    }
+
+    .column + .column {
+      border-left: 1px solid var(--black);
+    }
+
+    .column-title {
+      margin-bottom: 2rem;
+      color: var(--grey);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Linke Spalte: Abschnitte
+    |--------------------------------------------------------------------------
+    */
+
+    .section-navigation {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .section-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .section-link {
+      display: block;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--light-grey);
+      cursor: pointer;
+      transition:
+        color 150ms ease,
+        padding-left 150ms ease;
+    }
+
+    .section-link:hover {
+      padding-left: 0.5rem;
+      color: var(--orange);
+    }
+
+    .section-name {
+      display: block;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .section-period {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--grey);
+      font-size: 0.75rem;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aktiver CV-Abschnitt
+    |--------------------------------------------------------------------------
+    */
+
+    #section-medicine:checked
+      ~ main label[for="section-medicine"],
+    #section-emt:checked
+      ~ main label[for="section-emt"],
+    #section-political-science:checked
+      ~ main label[for="section-political-science"],
+    #section-university-politics:checked
+      ~ main label[for="section-university-politics"],
+    #section-local-politics:checked
+      ~ main label[for="section-local-politics"],
+    #section-social-year:checked
+      ~ main label[for="section-social-year"] {
+      padding-left: 0.75rem;
+      color: var(--black);
+      border-left: 0.5rem solid var(--orange);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Mittlere Spalte: Einträge
+    |--------------------------------------------------------------------------
+    */
+
+    .posts-panel {
+      display: none;
+    }
+
+    #section-medicine:checked
+      ~ main .posts-medicine,
+    #section-emt:checked
+      ~ main .posts-emt,
+    #section-political-science:checked
+      ~ main .posts-political-science,
+    #section-university-politics:checked
+      ~ main .posts-university-politics,
+    #section-local-politics:checked
+      ~ main .posts-local-politics,
+    #section-social-year:checked
+      ~ main .posts-social-year {
+      display: block;
+    }
+
+    .posts-header {
+      margin-bottom: 2rem;
+    }
+
+    .posts-header h2 {
+      margin: 0.3rem 0 0.75rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(1.7rem, 2.5vw, 2.6rem);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .posts-description {
+      margin: 0;
+      color: var(--grey);
+      font-size: 0.85rem;
+    }
+
+    .post-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--light-grey);
+    }
+
+    .post-link {
+      display: block;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--light-grey);
+      cursor: pointer;
+    }
+
+    .post-link:hover .post-title {
+      color: var(--orange);
+    }
+
+    .post-date {
+      display: block;
+      margin-bottom: 0.35rem;
+      color: var(--grey);
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .post-title {
+      display: block;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .post-lead {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--grey);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Aktiver Eintrag
+    |--------------------------------------------------------------------------
+    */
+
+    #post-medicine-beginning:checked
+      ~ main label[for="post-medicine-beginning"],
+
+    #post-emt-first-day:checked
+      ~ main label[for="post-emt-first-day"],
+    #post-emt-why:checked
+      ~ main label[for="post-emt-why"],
+    #post-emt-preparation:checked
+      ~ main label[for="post-emt-preparation"],
+
+    #post-politics-thesis:checked
+      ~ main label[for="post-politics-thesis"],
+    #post-politics-degree:checked
+      ~ main label[for="post-politics-degree"],
+
+    #post-university-senate:checked
+      ~ main label[for="post-university-senate"],
+    #post-university-parliament:checked
+      ~ main label[for="post-university-parliament"],
+    #post-university-asta:checked
+      ~ main label[for="post-university-asta"],
+
+    #post-local-council:checked
+      ~ main label[for="post-local-council"],
+
+    #post-social-youth:checked
+      ~ main label[for="post-social-youth"],
+    #post-social-frankfurt:checked
+      ~ main label[for="post-social-frankfurt"] {
+      margin-inline: -1rem;
+      padding-inline: 1rem;
+      background: var(--orange);
+      color: var(--white);
+    }
+
+    #post-medicine-beginning:checked
+      ~ main label[for="post-medicine-beginning"] .post-date,
+    #post-medicine-beginning:checked
+      ~ main label[for="post-medicine-beginning"] .post-lead,
+
+    #post-emt-first-day:checked
+      ~ main label[for="post-emt-first-day"] .post-date,
+    #post-emt-first-day:checked
+      ~ main label[for="post-emt-first-day"] .post-lead,
+    #post-emt-why:checked
+      ~ main label[for="post-emt-why"] .post-date,
+    #post-emt-why:checked
+      ~ main label[for="post-emt-why"] .post-lead,
+    #post-emt-preparation:checked
+      ~ main label[for="post-emt-preparation"] .post-date,
+    #post-emt-preparation:checked
+      ~ main label[for="post-emt-preparation"] .post-lead,
+
+    #post-politics-thesis:checked
+      ~ main label[for="post-politics-thesis"] .post-date,
+    #post-politics-thesis:checked
+      ~ main label[for="post-politics-thesis"] .post-lead,
+    #post-politics-degree:checked
+      ~ main label[for="post-politics-degree"] .post-date,
+    #post-politics-degree:checked
+      ~ main label[for="post-politics-degree"] .post-lead,
+
+    #post-university-senate:checked
+      ~ main label[for="post-university-senate"] .post-date,
+    #post-university-senate:checked
+      ~ main label[for="post-university-senate"] .post-lead,
+    #post-university-parliament:checked
+      ~ main label[for="post-university-parliament"] .post-date,
+    #post-university-parliament:checked
+      ~ main label[for="post-university-parliament"] .post-lead,
+    #post-university-asta:checked
+      ~ main label[for="post-university-asta"] .post-date,
+    #post-university-asta:checked
+      ~ main label[for="post-university-asta"] .post-lead,
+
+    #post-local-council:checked
+      ~ main label[for="post-local-council"] .post-date,
+    #post-local-council:checked
+      ~ main label[for="post-local-council"] .post-lead,
+
+    #post-social-youth:checked
+      ~ main label[for="post-social-youth"] .post-date,
+    #post-social-youth:checked
+      ~ main label[for="post-social-youth"] .post-lead,
+    #post-social-frankfurt:checked
+      ~ main label[for="post-social-frankfurt"] .post-date,
+    #post-social-frankfurt:checked
+      ~ main label[for="post-social-frankfurt"] .post-lead {
+      color: var(--white);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Rechte Spalte: Artikel
+    |--------------------------------------------------------------------------
+    */
+
+    .article {
+      display: none;
+      max-width: 850px;
+    }
+
+    #section-medicine:checked
+      ~ #post-medicine-beginning:checked
+      ~ main .article-medicine-beginning,
+
+    #section-emt:checked
+      ~ #post-emt-first-day:checked
+      ~ main .article-emt-first-day,
+    #section-emt:checked
+      ~ #post-emt-why:checked
+      ~ main .article-emt-why,
+    #section-emt:checked
+      ~ #post-emt-preparation:checked
+      ~ main .article-emt-preparation,
+
+    #section-political-science:checked
+      ~ #post-politics-thesis:checked
+      ~ main .article-politics-thesis,
+    #section-political-science:checked
+      ~ #post-politics-degree:checked
+      ~ main .article-politics-degree,
+
+    #section-university-politics:checked
+      ~ #post-university-senate:checked
+      ~ main .article-university-senate,
+    #section-university-politics:checked
+      ~ #post-university-parliament:checked
+      ~ main .article-university-parliament,
+    #section-university-politics:checked
+      ~ #post-university-asta:checked
+      ~ main .article-university-asta,
+
+    #section-local-politics:checked
+      ~ #post-local-council:checked
+      ~ main .article-local-council,
+
+    #section-social-year:checked
+      ~ #post-social-youth:checked
+      ~ main .article-social-youth,
+    #section-social-year:checked
+      ~ #post-social-frankfurt:checked
+      ~ main .article-social-frankfurt {
+      display: block;
+    }
+
+    .article-header {
+      padding-bottom: 2rem;
+      border-bottom: 2px solid var(--black);
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .article-category {
+      padding: 0.2rem 0.5rem;
+      background: var(--orange);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .article-date {
+      color: var(--grey);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .article h2 {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: clamp(2.5rem, 5vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+      line-height: 0.92;
+      text-transform: uppercase;
+    }
+
+    .article-lead {
+      max-width: 700px;
+      margin: 1.5rem 0 0;
+      font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .article-body {
+      max-width: 720px;
+      padding: 2rem 0 4rem;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1.75;
+    }
+
+    .article-body p {
+      margin: 0 0 1.5rem;
+    }
+
+    .article-body p:first-child::first-letter {
+      float: left;
+      margin: 0.08em 0.12em 0 0;
+      color: var(--orange);
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 0.8;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Fokus
+    |--------------------------------------------------------------------------
+    */
+
+    #section-medicine:focus-visible
+      ~ main label[for="section-medicine"],
+    #section-emt:focus-visible
+      ~ main label[for="section-emt"],
+    #section-political-science:focus-visible
+      ~ main label[for="section-political-science"],
+    #section-university-politics:focus-visible
+      ~ main label[for="section-university-politics"],
+    #section-local-politics:focus-visible
+      ~ main label[for="section-local-politics"],
+    #section-social-year:focus-visible
+      ~ main label[for="section-social-year"] {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Footer
+    |--------------------------------------------------------------------------
+    */
+
+    .site-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 2rem 0;
+      color: var(--grey);
+      font-size: 0.8rem;
+    }
+
+    .site-footer p {
+      margin: 0;
+    }
+
+    .site-footer a {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
+
+    .site-footer a:hover {
+      color: var(--orange);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Tablet
+    |--------------------------------------------------------------------------
+    */
+
+    @media (max-width: 1050px) {
+      .layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+      }
+
+      .sections-column {
+        grid-row: 1 / span 2;
+      }
+
+      .posts-column {
+        border-bottom: 1px solid var(--black);
+      }
+
+      .article-column {
+        grid-column: 2;
+      }
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Smartphone
+    |--------------------------------------------------------------------------
+    */
+
+    @media (max-width: 720px) {
+      .site-header,
+      .intro,
+      .layout,
+      .site-footer {
+        width: min(calc(100% - 2rem), var(--width));
+      }
+
+      .site-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .header-info {
+        text-align: left;
+      }
+
+      .intro {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .intro-text {
+        grid-column: auto;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .column {
+        padding: 2rem 0;
+      }
+
+      .column + .column {
+        border-top: 1px solid var(--black);
+        border-left: 0;
+      }
+
+      .section-navigation {
+        position: static;
+      }
+
+      .section-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-link {
+        height: 100%;
+        padding: 1rem 0.75rem;
+      }
+
+      #section-medicine:checked
+        ~ main label[for="section-medicine"],
+      #section-emt:checked
+        ~ main label[for="section-emt"],
+      #section-political-science:checked
+        ~ main label[for="section-political-science"],
+      #section-university-politics:checked
+        ~ main label[for="section-university-politics"],
+      #section-local-politics:checked
+        ~ main label[for="section-local-politics"],
+      #section-social-year:checked
+        ~ main label[for="section-social-year"] {
+        padding-left: 0.75rem;
+        background: var(--orange);
+        color: var(--white);
+        border-left: 0;
+      }
+
+      #section-medicine:checked
+        ~ main label[for="section-medicine"] .section-period,
+      #section-emt:checked
+        ~ main label[for="section-emt"] .section-period,
+      #section-political-science:checked
+        ~ main label[for="section-political-science"] .section-period,
+      #section-university-politics:checked
+        ~ main label[for="section-university-politics"] .section-period,
+      #section-local-politics:checked
+        ~ main label[for="section-local-politics"] .section-period,
+      #section-social-year:checked
+        ~ main label[for="section-social-year"] .section-period {
+        color: var(--white);
+      }
+
+      .site-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .section-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      .section-link {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!--
+    Auswahl der CV-Abschnitte.
+    Einer dieser Buttons muss "checked" sein.
+  -->
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-medicine"
+    checked
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-emt"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-political-science"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-university-politics"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-local-politics"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="section"
+    id="section-social-year"
+  >
+
+
+  <!-- Human Medicine -->
+
+  <input
+    class="state"
+    type="radio"
+    name="medicine-post"
+    id="post-medicine-beginning"
+    checked
+  >
+
+
+  <!-- EMT Training -->
+
+  <input
+    class="state"
+    type="radio"
+    name="emt-post"
+    id="post-emt-first-day"
+    checked
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="emt-post"
+    id="post-emt-why"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="emt-post"
+    id="post-emt-preparation"
+  >
+
+
+  <!-- Political Science -->
+
+  <input
+    class="state"
+    type="radio"
+    name="politics-post"
+    id="post-politics-thesis"
+    checked
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="politics-post"
+    id="post-politics-degree"
+  >
+
+
+  <!-- University Politics -->
+
+  <input
+    class="state"
+    type="radio"
+    name="university-post"
+    id="post-university-senate"
+    checked
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="university-post"
+    id="post-university-parliament"
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="university-post"
+    id="post-university-asta"
+  >
+
+
+  <!-- Local Politics -->
+
+  <input
+    class="state"
+    type="radio"
+    name="local-post"
+    id="post-local-council"
+    checked
+  >
+
+
+  <!-- Voluntary Social Year -->
+
+  <input
+    class="state"
+    type="radio"
+    name="social-post"
+    id="post-social-youth"
+    checked
+  >
+
+  <input
+    class="state"
+    type="radio"
+    name="social-post"
+    id="post-social-frankfurt"
+  >
+
+
+  <header class="site-header">
+    <a class="wordmark" href="index.html">
+      Marius Michel
+    </a>
+
+    <p class="header-info">
+      Hamburg · Political Science · Emergency Medicine
+    </p>
+  </header>
+
+
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Personal notes / CV</p>
+
+      <h1>
+        Work, education and public engagement.
+      </h1>
+
+      <p class="intro-text">
+        A collection of personal notes organized around the different
+        stages of my education and public work.
+      </p>
+    </section>
+
+
+    <div class="layout">
+
+      <!-- Linke Spalte -->
+
+      <aside class="column sections-column">
+        <nav
+          class="section-navigation"
+          aria-label="CV sections"
+        >
+          <p class="column-title">01 / Sections</p>
+
+          <ul class="section-list">
+            <li>
+              <label
+                class="section-link"
+                for="section-medicine"
+              >
+                <span class="section-name">
+                  Human Medicine
+                </span>
+
+                <span class="section-period">
+                  From 2026
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="section-link"
+                for="section-emt"
+              >
+                <span class="section-name">
+                  EMT Training
+                </span>
+
+                <span class="section-period">
+                  2026
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="section-link"
+                for="section-political-science"
+              >
+                <span class="section-name">
+                  Political Science
+                </span>
+
+                <span class="section-period">
+                  2021–2026
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="section-link"
+                for="section-university-politics"
+              >
+                <span class="section-name">
+                  University Politics
+                </span>
+
+                <span class="section-period">
+                  2022–2025
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="section-link"
+                for="section-local-politics"
+              >
+                <span class="section-name">
+                  Local Politics
+                </span>
+
+                <span class="section-period">
+                  2021–2026
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="section-link"
+                for="section-social-year"
+              >
+                <span class="section-name">
+                  Voluntary Social Year
+                </span>
+
+                <span class="section-period">
+                  2020–2021
+                </span>
+              </label>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+
+      <!-- Mittlere Spalte -->
+
+      <section class="column posts-column">
+        <p class="column-title">02 / Entries</p>
+
+
+        <!-- Human Medicine -->
+
+        <div class="posts-panel posts-medicine">
+          <header class="posts-header">
+            <p class="eyebrow">From 2026</p>
+            <h2>Human Medicine</h2>
+
+            <p class="posts-description">
+              Notes from my medical studies at TU Dresden.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-medicine-beginning"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-10-01"
+                >
+                  01.10.2026
+                </time>
+
+                <span class="post-title">
+                  Beginning medical school
+                </span>
+
+                <span class="post-lead">
+                  A new chapter at TU Dresden.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- EMT Training -->
+
+        <div class="posts-panel posts-emt">
+          <header class="posts-header">
+            <p class="eyebrow">2026</p>
+            <h2>EMT Training</h2>
+
+            <p class="posts-description">
+              Notes from my EMT training in Hamburg.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-emt-first-day"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-06-08"
+                >
+                  08.06.2026
+                </time>
+
+                <span class="post-title">
+                  First day of EMT training
+                </span>
+
+                <span class="post-lead">
+                  Starting my training in Hamburg.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-emt-why"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-05-20"
+                >
+                  20.05.2026
+                </time>
+
+                <span class="post-title">
+                  Why emergency medicine?
+                </span>
+
+                <span class="post-lead">
+                  Some thoughts before starting the training.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-emt-preparation"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-04-14"
+                >
+                  14.04.2026
+                </time>
+
+                <span class="post-title">
+                  Preparing for Hamburg
+                </span>
+
+                <span class="post-lead">
+                  Organization, reading and anticipation.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- Political Science -->
+
+        <div class="posts-panel posts-political-science">
+          <header class="posts-header">
+            <p class="eyebrow">2021–2026</p>
+            <h2>Political Science</h2>
+
+            <p class="posts-description">
+              Studies and academic work at Leuphana University Lüneburg.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-politics-thesis"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-06-30"
+                >
+                  30.06.2026
+                </time>
+
+                <span class="post-title">
+                  My bachelor thesis
+                </span>
+
+                <span class="post-lead">
+                  Herbert Marcuse and predictive policing.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-politics-degree"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-06-15"
+                >
+                  15.06.2026
+                </time>
+
+                <span class="post-title">
+                  Finishing my degree
+                </span>
+
+                <span class="post-lead">
+                  Looking back at five years of political science.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- University Politics -->
+
+        <div class="posts-panel posts-university-politics">
+          <header class="posts-header">
+            <p class="eyebrow">2022–2025</p>
+            <h2>University Politics</h2>
+
+            <p class="posts-description">
+              Student representation and academic self-governance.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-university-senate"
+              >
+                <time
+                  class="post-date"
+                  datetime="2025-09-30"
+                >
+                  30.09.2025
+                </time>
+
+                <span class="post-title">
+                  Academic Senate
+                </span>
+
+                <span class="post-lead">
+                  The end of my term in the Academic Senate.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-university-parliament"
+              >
+                <time
+                  class="post-date"
+                  datetime="2025-09-15"
+                >
+                  15.09.2025
+                </time>
+
+                <span class="post-title">
+                  Student Parliament
+                </span>
+
+                <span class="post-lead">
+                  Reflections on student representation.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-university-asta"
+              >
+                <time
+                  class="post-date"
+                  datetime="2024-08-31"
+                >
+                  31.08.2024
+                </time>
+
+                <span class="post-title">
+                  A year as AStA spokesperson
+                </span>
+
+                <span class="post-lead">
+                  Looking back at my term.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- Local Politics -->
+
+        <div class="posts-panel posts-local-politics">
+          <header class="posts-header">
+            <p class="eyebrow">2021–2026</p>
+            <h2>Local Politics</h2>
+
+            <p class="posts-description">
+              My work in the City Council of Amöneburg.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-local-council"
+              >
+                <time
+                  class="post-date"
+                  datetime="2026-03-31"
+                >
+                  31.03.2026
+                </time>
+
+                <span class="post-title">
+                  Five years in the City Council
+                </span>
+
+                <span class="post-lead">
+                  The end of my term in Amöneburg.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+
+
+        <!-- Voluntary Social Year -->
+
+        <div class="posts-panel posts-social-year">
+          <header class="posts-header">
+            <p class="eyebrow">2020–2021</p>
+            <h2>Voluntary Social Year</h2>
+
+            <p class="posts-description">
+              Social work in Frankfurt and the Lahn-Dill/Eder region.
+            </p>
+          </header>
+
+          <ol class="post-list">
+            <li>
+              <label
+                class="post-link"
+                for="post-social-youth"
+              >
+                <time
+                  class="post-date"
+                  datetime="2021-07-31"
+                >
+                  31.07.2021
+                </time>
+
+                <span class="post-title">
+                  Youth work in Lahn-Dill/Eder
+                </span>
+
+                <span class="post-lead">
+                  The second part of my Voluntary Social Year.
+                </span>
+              </label>
+            </li>
+
+            <li>
+              <label
+                class="post-link"
+                for="post-social-frankfurt"
+              >
+                <time
+                  class="post-date"
+                  datetime="2021-01-31"
+                >
+                  31.01.2021
+                </time>
+
+                <span class="post-title">
+                  Bahnhofsmission Frankfurt
+                </span>
+
+                <span class="post-lead">
+                  The first part of my Voluntary Social Year.
+                </span>
+              </label>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+
+      <!-- Rechte Spalte -->
+
+      <section class="column article-column">
+        <p class="column-title">03 / Selected entry</p>
+
+
+        <!-- Human Medicine -->
+
+        <article class="article article-medicine-beginning">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Human Medicine
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2026-10-01"
+              >
+                01.10.2026
+              </time>
+            </div>
+
+            <h2>Beginning medical school</h2>
+
+            <p class="article-lead">
+              A new chapter at TU Dresden.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              In October 2026, I will begin studying human medicine
+              at Technische Universität Dresden.
+            </p>
+
+            <p>
+              This section will collect notes and observations from
+              my studies and the transition from political science
+              and emergency medicine to medical education.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- EMT Training -->
+
+        <article class="article article-emt-first-day">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">EMT Training</span>
+
+              <time
+                class="article-date"
+                datetime="2026-06-08"
+              >
+                08.06.2026
+              </time>
+            </div>
+
+            <h2>First day of EMT training</h2>
+
+            <p class="article-lead">
+              Starting my training as a Rettungssanitäter in Hamburg.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              Today marked the beginning of my EMT training at
+              DRK-Schwesternschaft Hamburg.
+            </p>
+
+            <p>
+              The training combines theoretical instruction, clinical
+              experience and practical work in emergency medical services.
+            </p>
+
+            <p>
+              I am especially interested in how medical knowledge,
+              communication and decision-making come together in
+              emergency situations.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-emt-why">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">EMT Training</span>
+
+              <time
+                class="article-date"
+                datetime="2026-05-20"
+              >
+                20.05.2026
+              </time>
+            </div>
+
+            <h2>Why emergency medicine?</h2>
+
+            <p class="article-lead">
+              Some thoughts before starting the training.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              Emergency medicine combines practical responsibility,
+              teamwork and direct contact with people in difficult
+              situations.
+            </p>
+
+            <p>
+              For me, the training is also an opportunity to gain
+              practical experience before beginning my medical studies
+              at TU Dresden.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-emt-preparation">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">EMT Training</span>
+
+              <time
+                class="article-date"
+                datetime="2026-04-14"
+              >
+                14.04.2026
+              </time>
+            </div>
+
+            <h2>Preparing for Hamburg</h2>
+
+            <p class="article-lead">
+              Organization, reading and anticipation.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              Before the training begins, there are practical questions
+              to answer: accommodation, schedules, equipment and preparation.
+            </p>
+
+            <p>
+              At the same time, I am reviewing basic anatomy and physiology
+              and familiarizing myself with the structure of emergency
+              medical services in Germany.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- Political Science -->
+
+        <article class="article article-politics-thesis">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Political Science
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2026-06-30"
+              >
+                30.06.2026
+              </time>
+            </div>
+
+            <h2>My bachelor thesis</h2>
+
+            <p class="article-lead">
+              Herbert Marcuse and predictive policing technology.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              My bachelor thesis examines Herbert Marcuse’s theory
+              of one-dimensional society as a critique of predictive
+              policing technology.
+            </p>
+
+            <p>
+              The thesis asks how supposedly neutral technologies can
+              reproduce existing social structures and restrict the
+              political imagination of alternative forms of society.
+            </p>
+
+            <p>
+              Its title is: “Criticizing the system is the most
+              revolutionary act – Herbert Marcuse’s theory of
+              one-dimensional society as a critique of predictive
+              policing technology.”
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-politics-degree">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Political Science
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2026-06-15"
+              >
+                15.06.2026
+              </time>
+            </div>
+
+            <h2>Finishing my degree</h2>
+
+            <p class="article-lead">
+              Looking back at five years of political science.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              After five years at Leuphana University Lüneburg,
+              I completed my B.A. in Political Science.
+            </p>
+
+            <p>
+              My studies focused on political theory, institutions
+              and the relationship between society, technology and power.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- University Politics -->
+
+        <article class="article article-university-senate">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                University Politics
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2025-09-30"
+              >
+                30.09.2025
+              </time>
+            </div>
+
+            <h2>Academic Senate</h2>
+
+            <p class="article-lead">
+              The end of my term in the Academic Senate.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From October 2024 to September 2025, I was a member
+              of the Academic Senate at Leuphana University Lüneburg.
+            </p>
+
+            <p>
+              The Senate offered an important perspective on academic
+              self-governance and the different interests that shape
+              a university.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-university-parliament">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                University Politics
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2025-09-15"
+              >
+                15.09.2025
+              </time>
+            </div>
+
+            <h2>Student Parliament</h2>
+
+            <p class="article-lead">
+              Reflections on student representation.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From February 2022 to November 2025, I was a member
+              of the Student Parliament and various student committees.
+            </p>
+
+            <p>
+              This work involved political debate, organizational questions
+              and the representation of student interests.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-university-asta">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                University Politics
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2024-08-31"
+              >
+                31.08.2024
+              </time>
+            </div>
+
+            <h2>A year as AStA spokesperson</h2>
+
+            <p class="article-lead">
+              Looking back at my term in the General Students’ Committee.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From July 2023 to August 2024, I served as an elected
+              spokesperson of the General Students’ Committee at
+              Leuphana University Lüneburg.
+            </p>
+
+            <p>
+              The role included political representation, coordination
+              and responsibility for organizational processes.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- Local Politics -->
+
+        <article class="article article-local-council">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Local Politics
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2026-03-31"
+              >
+                31.03.2026
+              </time>
+            </div>
+
+            <h2>Five years in the City Council</h2>
+
+            <p class="article-lead">
+              The end of my term in Amöneburg.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From March 2021 to March 2026, I served as a member
+              of the City Council of Amöneburg.
+            </p>
+
+            <p>
+              Local politics makes the effects of political decisions
+              especially visible. It also shows how important direct
+              discussion, compromise and democratic participation are.
+            </p>
+          </div>
+        </article>
+
+
+        <!-- Voluntary Social Year -->
+
+        <article class="article article-social-youth">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Voluntary Social Year
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2021-07-31"
+              >
+                31.07.2021
+              </time>
+            </div>
+
+            <h2>Youth work in Lahn-Dill/Eder</h2>
+
+            <p class="article-lead">
+              The second part of my Voluntary Social Year.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From February to July 2021, I completed the second part
+              of my Voluntary Social Year at a youth work center in
+              the Lahn-Dill/Eder region.
+            </p>
+
+            <p>
+              The work gave me practical experience in youth work,
+              communication and the organization of social projects.
+            </p>
+          </div>
+        </article>
+
+
+        <article class="article article-social-frankfurt">
+          <header class="article-header">
+            <div class="article-meta">
+              <span class="article-category">
+                Voluntary Social Year
+              </span>
+
+              <time
+                class="article-date"
+                datetime="2021-01-31"
+              >
+                31.01.2021
+              </time>
+            </div>
+
+            <h2>Bahnhofsmission Frankfurt</h2>
+
+            <p class="article-lead">
+              The first part of my Voluntary Social Year.
+            </p>
+          </header>
+
+          <div class="article-body">
+            <p>
+              From August 2020 to January 2021, I worked at
+              Bahnhofsmission Frankfurt.
+            </p>
+
+            <p>
+              The experience shaped my understanding of social inequality,
+              practical assistance and respectful communication with
+              people in difficult situations.
+            </p>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Marius Michel</p>
+
+    <p>
+      <a href="mailto:kontakt@marius-michel.de">
+        kontakt@marius-michel.de
+      </a>
+    </p>
+  </footer>
+
+</body>
+</html>
