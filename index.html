@@ -635,6 +635,129 @@
         scroll-behavior: auto;
       }
     }
+    /*
+|--------------------------------------------------------------------------
+| Farbkorrekturen
+|--------------------------------------------------------------------------
+*/
+
+/* Jahresangabe in der linken, vertikalen Spalte */
+.stage-period {
+  color: var(--grey);
+}
+
+/* Einträge mit etwas Innenabstand */
+.entry-link {
+  margin-inline: -0.75rem;
+  padding: 0.65rem 0.75rem;
+}
+
+/* Hover: orangefarbener Hintergrund, schwarze Schrift */
+.entry-link:hover {
+  background: var(--orange);
+  color: var(--black);
+}
+
+.entry-link:hover .entry-date,
+.entry-link:hover .entry-title {
+  color: var(--black);
+}
+
+/* Aktuell ausgewählter Eintrag */
+#view-medicine:checked
+  ~ main label[for="view-medicine"],
+
+#view-emt-first:checked
+  ~ main label[for="view-emt-first"],
+#view-emt-why:checked
+  ~ main label[for="view-emt-why"],
+#view-emt-preparation:checked
+  ~ main label[for="view-emt-preparation"],
+
+#view-politics-thesis:checked
+  ~ main label[for="view-politics-thesis"],
+#view-politics-degree:checked
+  ~ main label[for="view-politics-degree"],
+
+#view-university-senate:checked
+  ~ main label[for="view-university-senate"],
+#view-university-parliament:checked
+  ~ main label[for="view-university-parliament"],
+#view-university-asta:checked
+  ~ main label[for="view-university-asta"],
+
+#view-local-council:checked
+  ~ main label[for="view-local-council"],
+
+#view-social-youth:checked
+  ~ main label[for="view-social-youth"],
+#view-social-frankfurt:checked
+  ~ main label[for="view-social-frankfurt"] {
+  background: var(--orange);
+  color: var(--black);
+}
+
+/* Datum und Titel des ausgewählten Eintrags ebenfalls schwarz */
+#view-medicine:checked
+  ~ main label[for="view-medicine"] .entry-date,
+#view-medicine:checked
+  ~ main label[for="view-medicine"] .entry-title,
+
+#view-emt-first:checked
+  ~ main label[for="view-emt-first"] .entry-date,
+#view-emt-first:checked
+  ~ main label[for="view-emt-first"] .entry-title,
+#view-emt-why:checked
+  ~ main label[for="view-emt-why"] .entry-date,
+#view-emt-why:checked
+  ~ main label[for="view-emt-why"] .entry-title,
+#view-emt-preparation:checked
+  ~ main label[for="view-emt-preparation"] .entry-date,
+#view-emt-preparation:checked
+  ~ main label[for="view-emt-preparation"] .entry-title,
+
+#view-politics-thesis:checked
+  ~ main label[for="view-politics-thesis"] .entry-date,
+#view-politics-thesis:checked
+  ~ main label[for="view-politics-thesis"] .entry-title,
+#view-politics-degree:checked
+  ~ main label[for="view-politics-degree"] .entry-date,
+#view-politics-degree:checked
+  ~ main label[for="view-politics-degree"] .entry-title,
+
+#view-university-senate:checked
+  ~ main label[for="view-university-senate"] .entry-date,
+#view-university-senate:checked
+  ~ main label[for="view-university-senate"] .entry-title,
+#view-university-parliament:checked
+  ~ main label[for="view-university-parliament"] .entry-date,
+#view-university-parliament:checked
+  ~ main label[for="view-university-parliament"] .entry-title,
+#view-university-asta:checked
+  ~ main label[for="view-university-asta"] .entry-date,
+#view-university-asta:checked
+  ~ main label[for="view-university-asta"] .entry-title,
+
+#view-local-council:checked
+  ~ main label[for="view-local-council"] .entry-date,
+#view-local-council:checked
+  ~ main label[for="view-local-council"] .entry-title,
+
+#view-social-youth:checked
+  ~ main label[for="view-social-youth"] .entry-date,
+#view-social-youth:checked
+  ~ main label[for="view-social-youth"] .entry-title,
+#view-social-frankfurt:checked
+  ~ main label[for="view-social-frankfurt"] .entry-date,
+#view-social-frankfurt:checked
+  ~ main label[for="view-social-frankfurt"] .entry-title {
+  color: var(--black);
+}
+
+/* Den bisherigen Pfeil vor dem ausgewählten Titel entfernen */
+.entry-title::before {
+  content: none !important;
+}
   </style>
 </head>
 
