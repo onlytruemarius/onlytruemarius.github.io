@@ -1,6 +1,6 @@
-title: einfach unnötig.
+title: Moin!
 email: kontakt@marius-michel.de
-description: einfach unnötige texte.
+description: weil mir an einem Dienstag im August langweilig war
 
 lang: de
 timezone: Europe/Berlin
@@ -9,7 +9,7 @@ markdown: kramdown
 
 collections:
   entries:
-    output: false
+    output: true
 
 exclude:
   - README.md
