@@ -1,1 +1,17 @@
+title: einfach unnötig.
+email: kontakt@marius-michel.de
+description: einfach unnötige texte.
 
+lang: de
+timezone: Europe/Berlin
+
+markdown: kramdown
+
+collections:
+  entries:
+    output: false
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
