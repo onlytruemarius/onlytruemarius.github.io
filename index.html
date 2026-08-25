@@ -131,13 +131,16 @@ layout: null
     | Erste Spalte: Etappe
     |--------------------------------------------------------------------------
     */
-    .stage {
-      position: sticky;
-      top: 25vh;
-      align-content: center;
-      gap: 1.5rem;
-      min-height: 360px;
-    }
+   .stage {
+  display: none;
+  position: sticky;
+  top: calc(var(--header-height) + 2rem);
+  align-content: center;
+  align-items: center;
+  justify-items: center;
+  gap: 1.25rem;
+  min-height: 430px;
+}
 
     .stage-arrow {
       display: flex;
