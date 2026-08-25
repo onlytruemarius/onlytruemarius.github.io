@@ -466,16 +466,6 @@ layout: null
         font-size: 0;
       }
 
-      .stage-arrow:first-child::before {
-        content: "←";
-        font-size: 1.4rem;
-      }
-
-      .stage-arrow:last-child::before {
-        content: "→";
-        font-size: 1.4rem;
-      }
-
       .article {
         max-width: none;
       }
@@ -1075,6 +1065,92 @@ body {
     font-size: 1.55rem;
   }
 }
+
+/*
+|--------------------------------------------------------------------------
+| Etappenpfeile
+|--------------------------------------------------------------------------
+*/
+
+/* Der Textinhalt der Labels wird grundsätzlich ausgeblendet. */
+.stage-arrow {
+  font-size: 0 !important;
+}
+
+/*
+ * Desktop:
+ * oben = neuer
+ * unten = älter
+ */
+
+.stage-arrow-newer {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.stage-title {
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.stage-arrow-older {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.stage .stage-arrow-newer::before {
+  content: "↑" !important;
+  font-size: 1rem;
+}
+
+.stage .stage-arrow-older::before {
+  content: "↓" !important;
+  font-size: 1rem;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Smartphone
+|--------------------------------------------------------------------------
+*/
+
+@media (max-width: 650px) {
+  .stage {
+    grid-template-columns: 2.25rem minmax(0, 1fr) 2.25rem;
+    grid-template-rows: auto !important;
+    align-items: center;
+  }
+
+  /* Links: ältere Etappe */
+  .stage-arrow-older {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  /* Mitte: aktuelle Etappe */
+  .stage-title {
+    grid-row: 1;
+    grid-column: 2;
+    margin: 0 0.75rem;
+    text-align: center;
+  }
+
+  /* Rechts: neuere Etappe */
+  .stage-arrow-newer {
+    grid-row: 1;
+    grid-column: 3;
+  }
+
+  .stage .stage-arrow-older::before {
+    content: "←" !important;
+    font-size: 1.2rem;
+  }
+
+  .stage .stage-arrow-newer::before {
+    content: "→" !important;
+    font-size: 1.2rem;
+  }
+}
     
   </style>
 </head>
@@ -1165,34 +1241,34 @@ body {
     %}
 
     <div class="stage stage-{{ stage_key }}">
-      <label
-        class="stage-arrow stage-arrow-previous"
-        for="view-{{ previous_entry_key }}"
-        title="Vorherige Etappe: {{ previous_stage.title }}"
-        aria-label="Vorherige Etappe: {{ previous_stage.title }}"
-      >
-        ↑
-      </label>
 
-      <div class="stage-title">
-        {{ stage.title | default: stage.id }}
+  <!-- Neuere Etappe -->
+  <label
+    class="stage-arrow stage-arrow-newer"
+    for="view-{{ previous_entry_key }}"
+    title="Neuere Etappe: {{ previous_stage.title }}"
+    aria-label="Neuere Etappe: {{ previous_stage.title }}"
+  ></label>
 
-        {% if stage.period %}
-          <span class="stage-period">
-            ({{ stage.period }})
-          </span>
-        {% endif %}
-      </div>
+  <div class="stage-title">
+    {{ stage.title | default: stage.id }}
 
-      <label
-        class="stage-arrow stage-arrow-next"
-        for="view-{{ next_entry_key }}"
-        title="Nächste Etappe: {{ next_stage.title }}"
-        aria-label="Nächste Etappe: {{ next_stage.title }}"
-      >
-        ↓
-      </label>
-    </div>
+    {% if stage.period %}
+      <span class="stage-period">
+        ({{ stage.period }})
+      </span>
+    {% endif %}
+  </div>
+
+  <!-- Ältere Etappe -->
+  <label
+    class="stage-arrow stage-arrow-older"
+    for="view-{{ next_entry_key }}"
+    title="Ältere Etappe: {{ next_stage.title }}"
+    aria-label="Ältere Etappe: {{ next_stage.title }}"
+  ></label>
+
+</div>
   {% endfor %}
 </aside>
 
